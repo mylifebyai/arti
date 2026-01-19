@@ -21,11 +21,11 @@ export function ChatLayout({
   children
 }: ChatLayoutProps) {
   return (
-    <div className="flex h-full flex-col gap-5 rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-5 text-slate-50 shadow-[0_30px_80px_rgba(0,0,0,0.35)] ring-1 ring-white/5">
-      <div className="rounded-2xl border border-white/10 bg-white/[0.05] shadow-lg backdrop-blur">
+    <div className="flex h-full flex-col gap-5 rounded-3xl bg-[var(--bg-cream)] p-5 text-[var(--text-primary)] shadow-[var(--shadow-soft)]">
+      <div className="rounded-2xl border border-[var(--border-light)] bg-[var(--bg-white)] shadow-sm">
         <TitleBar
           variant="inline"
-          tone="dark"
+          tone="light"
           onOpenHistory={onOpenHistory}
           onNewChat={onNewChat}
         />

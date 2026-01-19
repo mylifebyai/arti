@@ -1,5 +1,6 @@
+import { CheckCircle2, Circle, Loader2, ArrowRight } from 'lucide-react';
 import type { AgentId, AgentRuntime } from '../types';
-import { AGENT_META, getAgentColor, STATUS_STYLES } from '../utils';
+import { AGENT_META } from '../utils';
 
 type StatusCardsProps = {
   agentStates: Record<AgentId, AgentRuntime>;
@@ -7,60 +8,82 @@ type StatusCardsProps = {
 
 export function StatusCards({ agentStates }: StatusCardsProps) {
   return (
-    <div className="relative z-10 grid gap-4 md:grid-cols-3">
-      {AGENT_META.map((meta, idx) => {
-        const state = agentStates[meta.id];
-        const status = STATUS_STYLES[state.status];
-        const agentColor = getAgentColor(meta.id);
+    <div className="rounded-2xl border border-[var(--border-light)] bg-[var(--bg-white)] p-4 shadow-sm">
+      <div className="flex items-center gap-2">
+        {AGENT_META.map((meta, idx) => {
+          const state = agentStates[meta.id];
+          const isComplete = state.status === 'complete';
+          const isRunning = state.status === 'running';
+          const isLast = idx === AGENT_META.length - 1;
 
-        return (
-          <div key={meta.id} className={`relative rounded-sm p-4 ${meta.accent.border}`}>
-            {/* Top accent line */}
-            <div
-              className="absolute top-0 right-0 left-0 h-[2px]"
-              style={{ background: `linear-gradient(90deg, ${agentColor}, transparent)` }}
-            />
-
-            <div className="mb-3 flex items-center justify-between">
-              <span
-                className="text-[10px] tracking-[0.2em]"
-                style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-dim)' }}
-              >
-                STAGE {String(idx + 1).padStart(2, '0')}
-              </span>
-              <span className={`rounded-sm px-2 py-1 ${status.badge}`}>{status.text}</span>
-            </div>
-
-            <div className="mb-2 flex items-center gap-3">
-              <span className="synth-text-glow text-2xl" style={{ color: agentColor }}>
-                {meta.icon}
-              </span>
-              <div>
-                <h3 className="text-lg font-bold tracking-wider" style={{ color: agentColor }}>
-                  {meta.label}
-                </h3>
-                <p
-                  className="text-[10px] tracking-[0.15em] uppercase"
-                  style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-dim)' }}
-                >
-                  {meta.subtitle}
-                </p>
-              </div>
-            </div>
-
-            {/* Progress bar */}
-            <div
-              className="mt-3 mb-2 h-1 rounded-full"
-              style={{ background: 'rgba(255, 255, 255, 0.1)' }}
-            >
+          return (
+            <div key={meta.id} className="flex flex-1 items-center">
+              {/* Stage card */}
               <div
-                className={`h-full rounded-full transition-all duration-500 ${status.bar}`}
-                style={{ width: status.progress }}
-              />
+                className={`flex flex-1 items-center gap-3 rounded-xl border p-3 transition-all ${
+                  isRunning
+                    ? 'border-[var(--accent-coral)] bg-[var(--accent-coral)]/5'
+                    : isComplete
+                      ? 'border-emerald-200 bg-emerald-50'
+                      : 'border-[var(--border-light)] bg-[var(--user-bubble)]'
+                }`}
+              >
+                {/* Status icon */}
+                <div
+                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
+                    isComplete
+                      ? 'bg-emerald-500 text-white'
+                      : isRunning
+                        ? 'bg-[var(--accent-coral)] text-white'
+                        : 'bg-[var(--border-light)] text-[var(--text-tertiary)]'
+                  }`}
+                >
+                  {isComplete ? (
+                    <CheckCircle2 className="h-4 w-4" />
+                  ) : isRunning ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Circle className="h-4 w-4" />
+                  )}
+                </div>
+
+                {/* Label */}
+                <div className="min-w-0 flex-1">
+                  <p
+                    className={`text-xs font-medium ${
+                      isRunning
+                        ? 'text-[var(--accent-coral)]'
+                        : isComplete
+                          ? 'text-emerald-600'
+                          : 'text-[var(--text-tertiary)]'
+                    }`}
+                  >
+                    Stage {idx + 1}
+                  </p>
+                  <p
+                    className={`truncate text-sm font-semibold ${
+                      isRunning || isComplete ? 'text-[var(--text-primary)]' : 'text-[var(--text-secondary)]'
+                    }`}
+                  >
+                    {meta.label}
+                  </p>
+                </div>
+              </div>
+
+              {/* Arrow connector */}
+              {!isLast && (
+                <div className="px-2">
+                  <ArrowRight
+                    className={`h-4 w-4 ${
+                      isComplete ? 'text-emerald-400' : 'text-[var(--border-light)]'
+                    }`}
+                  />
+                </div>
+              )}
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 }

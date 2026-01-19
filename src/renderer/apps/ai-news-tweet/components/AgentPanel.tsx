@@ -1,5 +1,7 @@
+import { ChevronDown, ChevronUp, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { useState } from 'react';
 import type { AgentMeta, AgentRuntime } from '../types';
-import { formatSnippet, STATUS_STYLES } from '../utils';
+import { formatSnippet } from '../utils';
 
 type AgentPanelProps = {
   meta: AgentMeta;
@@ -8,121 +10,175 @@ type AgentPanelProps = {
   agentColor: string;
 };
 
-export function AgentPanel({ meta, state, isActive, agentColor }: AgentPanelProps) {
-  const status = STATUS_STYLES[state.status];
+export function AgentPanel({ meta, state, isActive }: AgentPanelProps) {
+  const [inputExpanded, setInputExpanded] = useState(false);
+  const [outputExpanded, setOutputExpanded] = useState(true);
+  const isComplete = state.status === 'complete';
+  const isRunning = state.status === 'running';
+  const hasError = Boolean(state.error);
 
   return (
     <div
-      className={`relative flex flex-col overflow-hidden rounded-sm ${meta.accent.border}`}
-      style={{
-        boxShadow: isActive ? `0 0 30px ${agentColor}40, 0 0 60px ${agentColor}20` : undefined
-      }}
+      className={`flex flex-col overflow-hidden rounded-2xl border bg-[var(--bg-white)] shadow-sm transition-all ${
+        isActive
+          ? 'border-[var(--accent-coral)] ring-2 ring-[var(--accent-coral)]/20'
+          : isComplete
+            ? 'border-emerald-200'
+            : 'border-[var(--border-light)]'
+      }`}
     >
-      {/* Top accent bar */}
+      {/* Header */}
       <div
-        className="h-1"
-        style={{ background: `linear-gradient(90deg, ${agentColor}, ${agentColor}00)` }}
-      />
-
-      <div className="flex flex-1 flex-col gap-3 p-4">
-        {/* Header */}
+        className={`border-b px-4 py-3 ${
+          isActive
+            ? 'border-[var(--accent-coral)]/20 bg-[var(--accent-coral)]/5'
+            : isComplete
+              ? 'border-emerald-100 bg-emerald-50'
+              : 'border-[var(--border-light)] bg-[var(--user-bubble)]'
+        }`}
+      >
         <div className="flex items-start justify-between gap-3">
-          <div>
-            <p
-              className="mb-1 text-[10px] tracking-[0.2em] uppercase"
-              style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-dim)' }}
+          <div className="flex items-center gap-3">
+            <div
+              className={`flex h-10 w-10 items-center justify-center rounded-xl text-lg ${
+                isComplete
+                  ? 'bg-emerald-500 text-white'
+                  : isActive
+                    ? 'bg-[var(--accent-coral)] text-white'
+                    : 'bg-[var(--border-light)] text-[var(--text-secondary)]'
+              }`}
             >
-              {meta.subtitle}
-            </p>
-            <div className="flex items-center gap-2">
-              <span className="synth-text-glow text-xl" style={{ color: agentColor }}>
-                {meta.icon}
-              </span>
-              <span className="text-lg font-bold tracking-wider" style={{ color: agentColor }}>
-                {meta.label}
-              </span>
+              {meta.icon}
             </div>
-            <p
-              className="mt-1 text-xs"
-              style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-dim)' }}
-            >
-              {meta.mission}
-            </p>
+            <div>
+              <h3 className="font-semibold text-[var(--text-primary)]">{meta.label}</h3>
+              <p className="text-xs text-[var(--text-tertiary)]">{meta.subtitle}</p>
+            </div>
           </div>
-          <span className={`rounded-sm px-2 py-1 ${status.badge}`}>{status.text}</span>
+
+          {/* Status badge */}
+          <div
+            className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${
+              hasError
+                ? 'bg-red-100 text-red-600'
+                : isComplete
+                  ? 'bg-emerald-100 text-emerald-600'
+                  : isRunning
+                    ? 'bg-[var(--accent-coral)]/10 text-[var(--accent-coral)]'
+                    : 'bg-[var(--user-bubble)] text-[var(--text-tertiary)]'
+            }`}
+          >
+            {hasError ? (
+              <>
+                <AlertCircle className="h-3 w-3" />
+                <span>Error</span>
+              </>
+            ) : isComplete ? (
+              <>
+                <CheckCircle2 className="h-3 w-3" />
+                <span>Done</span>
+              </>
+            ) : isRunning ? (
+              <>
+                <Loader2 className="h-3 w-3 animate-spin" />
+                <span>Running</span>
+              </>
+            ) : (
+              <span>Pending</span>
+            )}
+          </div>
         </div>
 
-        {/* Incoming Brief */}
-        <div
-          className="rounded-sm p-3"
-          style={{
-            background: 'rgba(0, 0, 0, 0.3)',
-            border: '1px solid rgba(255, 255, 255, 0.1)'
-          }}
-        >
-          <p
-            className="mb-2 text-[10px] tracking-[0.15em] uppercase"
-            style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-dim)' }}
-          >
-            ◇ INPUT STREAM
-          </p>
-          {state.incomingContext ?
-            <pre
-              className="max-h-20 overflow-y-auto text-xs whitespace-pre-wrap"
-              style={{ fontFamily: 'var(--font-mono)', color: 'var(--text)' }}
-            >
-              {formatSnippet(state.incomingContext)}
-            </pre>
-          : <p
-              className="text-xs"
-              style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-dim)' }}
-            >
-              Awaiting data feed...
-            </p>
-          }
-        </div>
+        <p className="mt-2 text-xs text-[var(--text-secondary)]">{meta.mission}</p>
+      </div>
 
-        {/* Live Feed / Output */}
-        <div
-          className="flex-1 rounded-sm p-3"
-          style={{
-            background: 'rgba(0, 0, 0, 0.4)',
-            border: `1px solid ${state.status === 'running' ? agentColor + '50' : 'rgba(255, 255, 255, 0.1)'}`
-          }}
-        >
-          <p
-            className="mb-2 text-[10px] tracking-[0.15em] uppercase"
-            style={{
-              fontFamily: 'var(--font-mono)',
-              color: state.status === 'complete' ? agentColor : 'var(--text-dim)'
-            }}
+      {/* Content */}
+      <div className="flex flex-1 flex-col gap-3 p-4">
+        {/* Input section */}
+        <div className="rounded-xl border border-[var(--border-light)] bg-[var(--user-bubble)]">
+          <button
+            type="button"
+            onClick={() => setInputExpanded(!inputExpanded)}
+            className="flex w-full items-center justify-between px-3 py-2 text-left"
           >
-            {state.status === 'complete' ? '◉ OUTPUT READY' : '◈ LIVE FEED'}
-          </p>
-          {state.error ?
-            <p className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: '#ff4466' }}>
-              ERROR: {state.error}
-            </p>
-          : state.status === 'running' ?
-            <div className="max-h-28 overflow-y-auto rounded-sm p-2" style={{ background: 'rgba(0, 0, 0, 0.3)' }}>
-               <p className="text-xs animate-pulse mb-2" style={{ fontFamily: 'var(--font-mono)', color: agentColor }}>
-                 PROCESSING DATA STREAM...
-               </p>
-               {state.lastLog && (
-                 <p className="text-xs" style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-dim)' }}>
-                   &gt; {state.lastLog}
-                 </p>
-               )}
+            <span className="text-xs font-medium text-[var(--text-tertiary)]">Input</span>
+            {inputExpanded ? (
+              <ChevronUp className="h-4 w-4 text-[var(--text-tertiary)]" />
+            ) : (
+              <ChevronDown className="h-4 w-4 text-[var(--text-tertiary)]" />
+            )}
+          </button>
+          {inputExpanded && (
+            <div className="border-t border-[var(--border-light)] px-3 py-2">
+              {state.incomingContext ? (
+                <pre className="max-h-24 overflow-y-auto text-xs whitespace-pre-wrap text-[var(--text-secondary)]">
+                  {formatSnippet(state.incomingContext)}
+                </pre>
+              ) : (
+                <p className="text-xs italic text-[var(--text-tertiary)]">Waiting for input...</p>
+              )}
             </div>
-          : state.status === 'complete' && state.result ?
-            <pre
-              className="max-h-60 overflow-y-auto text-xs whitespace-pre-wrap"
-              style={{ fontFamily: 'var(--font-mono)', color: 'var(--text)' }}
+          )}
+        </div>
+
+        {/* Output section */}
+        <div
+          className={`flex-1 rounded-xl border ${
+            isComplete
+              ? 'border-emerald-200 bg-emerald-50'
+              : isRunning
+                ? 'border-[var(--accent-coral)]/30 bg-[var(--accent-coral)]/5'
+                : 'border-[var(--border-light)] bg-[var(--user-bubble)]'
+          }`}
+        >
+          <button
+            type="button"
+            onClick={() => setOutputExpanded(!outputExpanded)}
+            className="flex w-full items-center justify-between px-3 py-2 text-left"
+          >
+            <span
+              className={`text-xs font-medium ${
+                isComplete
+                  ? 'text-emerald-600'
+                  : isRunning
+                    ? 'text-[var(--accent-coral)]'
+                    : 'text-[var(--text-tertiary)]'
+              }`}
             >
-              {formatSnippet(state.result, 1000)}
-            </pre>
-          : <div className="h-8" />
-          }
+              {isComplete ? 'Output' : isRunning ? 'Processing...' : 'Output'}
+            </span>
+            {outputExpanded ? (
+              <ChevronUp className="h-4 w-4 text-[var(--text-tertiary)]" />
+            ) : (
+              <ChevronDown className="h-4 w-4 text-[var(--text-tertiary)]" />
+            )}
+          </button>
+          {outputExpanded && (
+            <div
+              className={`border-t px-3 py-2 ${
+                isComplete
+                  ? 'border-emerald-200'
+                  : isRunning
+                    ? 'border-[var(--accent-coral)]/20'
+                    : 'border-[var(--border-light)]'
+              }`}
+            >
+              {state.error ? (
+                <p className="text-xs text-red-600">{state.error}</p>
+              ) : isRunning ? (
+                <div className="flex items-center gap-2 text-xs text-[var(--accent-coral)]">
+                  <Loader2 className="h-3 w-3 animate-spin" />
+                  <span>{state.lastLog || 'Processing...'}</span>
+                </div>
+              ) : state.result ? (
+                <pre className="max-h-48 overflow-y-auto text-xs whitespace-pre-wrap text-[var(--text-secondary)]">
+                  {formatSnippet(state.result, 1000)}
+                </pre>
+              ) : (
+                <p className="text-xs italic text-[var(--text-tertiary)]">No output yet</p>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

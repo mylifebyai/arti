@@ -50,19 +50,19 @@ export default function TitleBar({
   const baseBarClasses =
     tone === 'dark' ?
       'h-12 border border-slate-700/80 bg-slate-900/85 text-slate-100 shadow-sm shadow-black/20 backdrop-blur-md'
-    : 'h-12 border-b border-neutral-200/70 bg-white/80 backdrop-blur-md dark:border-neutral-800 dark:bg-neutral-900/80';
+    : 'h-12 border-b border-[var(--border-light)] bg-[var(--bg-white)]/80 backdrop-blur-md text-[var(--text-primary)]';
   const wrapperClasses =
     variant === 'sticky' ? `sticky top-0 z-30 ${baseBarClasses}` : `relative z-0 ${baseBarClasses}`;
 
   const historyButtonClasses =
     tone === 'dark' ?
       'flex items-center gap-2 rounded-full border border-slate-700/70 bg-slate-800/80 px-3 py-1.5 text-sm font-medium text-slate-100 shadow-sm shadow-black/10 transition-colors hover:border-slate-600 hover:bg-slate-700/80'
-    : 'flex items-center gap-2 rounded-full border border-neutral-200/60 bg-white px-3 py-1.5 text-sm font-medium text-neutral-700 shadow-sm shadow-black/5 transition-colors hover:border-neutral-300 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:shadow-black/20 dark:hover:border-neutral-600 dark:hover:bg-neutral-800';
+    : 'flex items-center gap-2 rounded-full border border-[var(--border-light)] bg-[var(--bg-white)] px-3 py-1.5 text-sm font-medium text-[var(--text-secondary)] shadow-sm transition-colors hover:bg-[var(--user-bubble)]';
 
   const newButtonClasses =
     tone === 'dark' ?
       'flex h-8 w-8 items-center justify-center rounded-full border border-slate-700/70 bg-slate-800/80 text-slate-100 shadow-sm shadow-black/10 transition-colors hover:border-slate-600 hover:bg-slate-700/80'
-    : 'flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200/60 bg-white text-neutral-700 shadow-sm shadow-black/5 transition-colors hover:border-neutral-300 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:shadow-black/20 dark:hover:border-neutral-600 dark:hover:bg-neutral-800';
+    : 'flex h-8 w-8 items-center justify-center rounded-full border border-[var(--border-light)] bg-[var(--bg-white)] text-[var(--text-secondary)] shadow-sm transition-colors hover:bg-[var(--user-bubble)]';
 
   return (
     <div className={`${wrapperClasses} [-webkit-app-region:drag]`}>

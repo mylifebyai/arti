@@ -259,10 +259,10 @@ export default function ChatInput({
     >
       <div className="mx-auto max-w-3xl">
         <div
-          className={`rounded-3xl bg-white/95 p-2 shadow-[0_20px_60px_rgba(15,23,42,0.15)] backdrop-blur-xl dark:bg-neutral-900/90 dark:shadow-[0_16px_50px_rgba(0,0,0,0.65)] ${
+          className={`rounded-3xl bg-[var(--bg-white)] p-5 pb-3 shadow-[var(--shadow-input)] ${
             isDragActive ?
-              'ring-2 ring-neutral-400/80 dark:ring-neutral-500/80'
-            : 'ring-1 ring-neutral-200/80 dark:ring-neutral-700/70'
+              'ring-2 ring-[var(--accent-coral)]/50'
+            : ''
           }`}
           onClick={handleInputContainerClick}
           onDragEnter={handleDragEnter}
@@ -304,7 +304,7 @@ export default function ChatInput({
             onPaste={handlePaste}
             placeholder="How can I help you today?"
             rows={1}
-            className="w-full resize-none border-0 bg-transparent px-3 py-2 text-neutral-900 placeholder-neutral-400 focus:outline-none dark:text-neutral-100 dark:placeholder-neutral-500"
+            className="w-full resize-none border-0 bg-transparent px-3 py-2 text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:outline-none"
             style={{
               minHeight: `${MIN_TEXTAREA_HEIGHT}px`,
               maxHeight: `${MAX_TEXTAREA_HEIGHT}px`
@@ -316,12 +316,12 @@ export default function ChatInput({
               <button
                 type="button"
                 onClick={handleAttachmentButtonClick}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-neutral-100 text-neutral-600 transition hover:bg-neutral-200 focus:ring-2 focus:ring-neutral-400 focus:outline-none dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 dark:focus:ring-neutral-500"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--user-bubble)] text-[var(--text-secondary)] transition hover:bg-[var(--border-light)] focus:ring-2 focus:ring-[var(--accent-coral)]/50 focus:outline-none"
                 title="Attach files"
               >
                 <Paperclip className="h-4 w-4" />
               </button>
-              <div className="flex rounded-full bg-neutral-100 p-1 dark:bg-neutral-800">
+              <div className="flex rounded-full bg-[var(--user-bubble)] p-1">
                 <button
                   type="button"
                   aria-pressed={modelPreference === 'fast'}
@@ -329,8 +329,8 @@ export default function ChatInput({
                   disabled={isModelPreferenceUpdating}
                   className={`rounded-full px-3 py-1 text-xs font-medium transition ${
                     modelPreference === 'fast' ?
-                      'bg-white text-neutral-900 shadow-sm dark:bg-neutral-700 dark:text-neutral-100'
-                    : 'text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white'
+                      'bg-[var(--bg-white)] text-[var(--text-primary)] shadow-sm'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   } ${isModelPreferenceUpdating ? 'opacity-70' : ''}`}
                 >
                   Fast
@@ -342,8 +342,8 @@ export default function ChatInput({
                   disabled={isModelPreferenceUpdating}
                   className={`rounded-full px-3 py-1 text-xs font-medium transition ${
                     modelPreference === 'smart' ?
-                      'bg-white text-neutral-900 shadow-sm dark:bg-neutral-700 dark:text-neutral-100'
-                    : 'text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white'
+                      'bg-[var(--bg-white)] text-[var(--text-primary)] shadow-sm'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   } ${isModelPreferenceUpdating ? 'opacity-70' : ''}`}
                 >
                   Smart
@@ -355,18 +355,18 @@ export default function ChatInput({
                   disabled={isModelPreferenceUpdating}
                   className={`rounded-full px-3 py-1 text-xs font-medium transition ${
                     modelPreference === 'deep' ?
-                      'bg-white text-neutral-900 shadow-sm dark:bg-neutral-700 dark:text-neutral-100'
-                    : 'text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white'
+                      'bg-[var(--bg-white)] text-[var(--text-primary)] shadow-sm'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   } ${isModelPreferenceUpdating ? 'opacity-70' : ''}`}
                 >
                   Deep
                 </button>
               </div>
               {isModelPreferenceUpdating && (
-                <Loader2 className="h-3.5 w-3.5 animate-spin text-neutral-400 dark:text-neutral-300" />
+                <Loader2 className="h-3.5 w-3.5 animate-spin text-[var(--text-tertiary)]" />
               )}
               {/* Provider Toggle */}
-              <div className="flex rounded-full bg-neutral-100 p-1 dark:bg-neutral-800">
+              <div className="flex rounded-full bg-[var(--user-bubble)] p-1">
                 <button
                   type="button"
                   aria-pressed={provider === 'anthropic'}
@@ -374,8 +374,8 @@ export default function ChatInput({
                   disabled={isProviderUpdating}
                   className={`rounded-full px-2.5 py-1 text-xs font-medium transition ${
                     provider === 'anthropic' ?
-                      'bg-white text-neutral-900 shadow-sm dark:bg-neutral-700 dark:text-neutral-100'
-                    : 'text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white'
+                      'bg-[var(--bg-white)] text-[var(--text-primary)] shadow-sm'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   } ${isProviderUpdating ? 'opacity-70' : ''}`}
                   title="Use Anthropic Claude API"
                 >
@@ -388,8 +388,8 @@ export default function ChatInput({
                   disabled={isProviderUpdating}
                   className={`rounded-full px-2.5 py-1 text-xs font-medium transition ${
                     provider === 'glm' ?
-                      'bg-white text-neutral-900 shadow-sm dark:bg-neutral-700 dark:text-neutral-100'
-                    : 'text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white'
+                      'bg-[var(--bg-white)] text-[var(--text-primary)] shadow-sm'
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   } ${isProviderUpdating ? 'opacity-70' : ''}`}
                   title="Use Z.AI GLM API"
                 >
@@ -397,7 +397,7 @@ export default function ChatInput({
                 </button>
               </div>
               {isProviderUpdating && (
-                <Loader2 className="h-3.5 w-3.5 animate-spin text-neutral-400 dark:text-neutral-300" />
+                <Loader2 className="h-3.5 w-3.5 animate-spin text-[var(--text-tertiary)]" />
               )}
               {/* Thinking Level Dropdown */}
               {/* Note: Extended thinking works with Sonnet (Smart) and Opus (Deep), not Haiku (Fast) */}
@@ -406,13 +406,13 @@ export default function ChatInput({
                   type="button"
                   onClick={() => setIsThinkingDropdownOpen(!isThinkingDropdownOpen)}
                   disabled={isThinkingLevelUpdating || modelPreference === 'fast'}
-                  className={`flex items-center gap-1.5 rounded-full bg-neutral-100 px-3 py-1.5 text-xs font-medium transition dark:bg-neutral-800 ${
+                  className={`flex items-center gap-1.5 rounded-full bg-[var(--user-bubble)] px-3 py-1.5 text-xs font-medium transition ${
                     isThinkingLevelUpdating ? 'opacity-70' : ''
                   } ${
                     modelPreference === 'fast' ?
-                      'cursor-not-allowed text-neutral-400 opacity-50 dark:text-neutral-500'
-                    : thinkingLevel === 'off' ? 'text-neutral-500 dark:text-neutral-400'
-                    : 'text-neutral-700 dark:text-neutral-200'
+                      'cursor-not-allowed text-[var(--text-tertiary)] opacity-50'
+                    : thinkingLevel === 'off' ? 'text-[var(--text-tertiary)]'
+                    : 'text-[var(--text-secondary)]'
                   }`}
                   title={
                     modelPreference === 'fast' ?
@@ -427,7 +427,7 @@ export default function ChatInput({
                   {isThinkingLevelUpdating && <Loader2 className="h-3 w-3 animate-spin" />}
                 </button>
                 {isThinkingDropdownOpen && (
-                  <div className="absolute bottom-full left-0 z-20 mb-2 w-48 rounded-xl bg-white p-1 shadow-lg ring-1 ring-neutral-200/80 dark:bg-neutral-800 dark:ring-neutral-700/70">
+                  <div className="absolute bottom-full left-0 z-20 mb-2 w-48 rounded-xl bg-[var(--bg-white)] p-1 shadow-lg ring-1 ring-[var(--border-light)]">
                     {(Object.keys(THINKING_PRESETS) as ThinkingLevel[]).map((level) => (
                       <button
                         key={level}
@@ -438,14 +438,14 @@ export default function ChatInput({
                         }}
                         className={`flex w-full flex-col items-start rounded-lg px-3 py-2 text-left transition ${
                           level === thinkingLevel ?
-                            'bg-neutral-100 dark:bg-neutral-700'
-                          : 'hover:bg-neutral-50 dark:hover:bg-neutral-700/50'
+                            'bg-[var(--user-bubble)]'
+                          : 'hover:bg-[var(--bg-cream)]'
                         }`}
                       >
-                        <span className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
+                        <span className="text-sm font-medium text-[var(--text-primary)]">
                           {THINKING_PRESETS[level].label}
                         </span>
-                        <span className="text-xs text-neutral-500 dark:text-neutral-400">
+                        <span className="text-xs text-[var(--text-tertiary)]">
                           {THINKING_PRESETS[level].description}
                         </span>
                       </button>
@@ -457,10 +457,10 @@ export default function ChatInput({
             <button
               onClick={isLoading && onStopStreaming ? onStopStreaming : onSend}
               disabled={isLoading && onStopStreaming ? false : !computedCanSend || isLoading}
-              className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
+              className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
                 isLoading && onStopStreaming ?
-                  'bg-neutral-200 text-neutral-900 hover:bg-neutral-300 dark:bg-neutral-700 dark:text-neutral-100 dark:hover:bg-neutral-600'
-                : 'bg-neutral-900 text-white hover:bg-neutral-800 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200'
+                  'bg-[var(--user-bubble)] text-[var(--text-primary)] hover:bg-[var(--border-light)]'
+                : 'bg-[var(--accent-coral)] text-white hover:bg-[var(--accent-coral-dark)]'
               }`}
             >
               {isLoading ?
