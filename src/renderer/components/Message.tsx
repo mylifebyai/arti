@@ -27,9 +27,9 @@ export default function Message({ message, isLoading = false }: MessageProps) {
 
     return (
       <div className="flex justify-end px-1">
-        <article className="relative max-w-[min(34rem,calc(100%-2rem))] rounded-2xl border border-neutral-200/70 bg-white px-3 py-2 text-base leading-relaxed text-neutral-900 shadow-sm shadow-black/5 dark:border-neutral-800/60 dark:bg-neutral-900/70 dark:text-neutral-50 dark:shadow-black/30">
+        <article className="relative max-w-[85%] rounded-[20px] bg-[var(--user-bubble)] px-4 py-3 text-base leading-relaxed text-[var(--text-primary)]">
           {hasText && (
-            <div className="prose prose-base max-w-none prose-neutral dark:prose-invert">
+            <div className="prose prose-base max-w-none prose-neutral">
               <Markdown>{userContent}</Markdown>
             </div>
           )}
@@ -48,7 +48,7 @@ export default function Message({ message, isLoading = false }: MessageProps) {
     return (
       <div className="flex justify-start">
         <article className="w-full px-3 py-2">
-          <div className="prose prose-base max-w-none text-base leading-relaxed prose-neutral dark:prose-invert">
+          <div className="prose prose-base max-w-none text-base leading-[1.7] prose-neutral text-[var(--text-primary)]">
             <Markdown>{message.content}</Markdown>
           </div>
         </article>
@@ -108,7 +108,7 @@ export default function Message({ message, isLoading = false }: MessageProps) {
                 return (
                   <div
                     key={index}
-                    className="prose prose-base max-w-none text-base leading-relaxed prose-neutral dark:prose-invert"
+                    className="prose prose-base max-w-none text-base leading-[1.7] prose-neutral text-[var(--text-primary)]"
                   >
                     <Markdown>{item.text}</Markdown>
                   </div>

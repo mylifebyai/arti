@@ -60,14 +60,14 @@ export function ConversationPanel({
   isProviderUpdating
 }: ConversationPanelProps) {
   return (
-    <div className="flex min-h-0 flex-1 flex-col rounded-2xl border border-white/10 bg-white/[0.04] p-3 shadow-inner shadow-black/30 backdrop-blur">
+    <div className="flex min-h-0 flex-1 flex-col rounded-2xl border border-[var(--border-light)] bg-[var(--bg-white)] p-3 shadow-sm">
       <div className="flex min-h-0 flex-1 flex-col">
         <MessageList
           messages={messages}
           isLoading={isLoading}
           containerRef={containerRef}
           bottomPadding={bottomPadding}
-          tone="dark"
+          tone="light"
         />
 
         <ChatInput

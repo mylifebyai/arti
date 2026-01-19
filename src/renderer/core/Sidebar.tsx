@@ -61,15 +61,15 @@ export function Sidebar({
   };
 
   return (
-    <aside className="flex h-full flex-col bg-white/70 backdrop-blur">
+    <aside className="flex h-full flex-col bg-[var(--bg-white)]">
       <div className="px-4 py-5">
-        <p className="text-xs tracking-wide text-slate-500 uppercase">Claude SDK Starter Kit</p>
+        <p className="text-xs tracking-wide text-[var(--text-tertiary)] uppercase">Claude SDK Starter Kit</p>
         {isInDomain ?
           <div className="flex items-center gap-2">
             <Layers className="h-4 w-4" style={{ color: activeDomain.color }} />
-            <p className="text-lg font-semibold text-slate-900">{activeDomain.name}</p>
+            <p className="font-serif text-2xl font-medium text-[var(--text-primary)]">{activeDomain.name}</p>
           </div>
-        : <p className="text-lg font-semibold text-slate-900">Apps</p>}
+        : <p className="font-serif text-2xl font-medium text-[var(--text-primary)]">Apps</p>}
       </div>
       <nav className="flex-1 space-y-1 overflow-y-auto px-2">
         {visibleApps.map((app) => {
@@ -85,18 +85,18 @@ export function Sidebar({
                 : onSelectApp(app.id)
               }
               className={`group flex w-full items-center gap-3 rounded-md px-3 py-2 text-left text-sm font-medium transition ${
-                isActive ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-700 hover:bg-slate-100'
+                isActive ? 'bg-[var(--accent-coral)] text-white shadow-sm' : 'text-[var(--text-secondary)] hover:bg-[var(--user-bubble)]'
               }`}
             >
               <span
                 className={`inline-flex h-2 w-2 rounded-full ${
-                  isActive ? 'bg-emerald-300' : 'bg-slate-300'
+                  isActive ? 'bg-white/70' : 'bg-[var(--border-light)]'
                 }`}
                 aria-hidden
               />
               <span className="flex-1">{app.name}</span>
               {isPrimaryInDomain && (
-                <span className="text-[10px] font-semibold tracking-wide text-slate-400 uppercase">
+                <span className="text-[10px] font-semibold tracking-wide text-[var(--text-tertiary)] uppercase">
                   Primary
                 </span>
               )}
@@ -104,13 +104,13 @@ export function Sidebar({
           );
         })}
       </nav>
-      <div className="space-y-2 border-t border-slate-200 p-3">
+      <div className="space-y-2 border-t border-[var(--border-light)] p-3">
         {/* Exit Domain button - only show when in a domain */}
         {isInDomain && onExitDomain && (
           <button
             type="button"
             onClick={onExitDomain}
-            className="flex w-full items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-800 transition hover:bg-slate-100"
+            className="flex w-full items-center justify-center gap-2 rounded-md border border-[var(--border-light)] bg-[var(--bg-white)] px-3 py-2 text-sm font-medium text-[var(--text-primary)] transition hover:bg-[var(--user-bubble)]"
             title="Exit domain and return to launcher"
           >
             <LogOut className="h-4 w-4" />
@@ -123,7 +123,7 @@ export function Sidebar({
             <button
               type="button"
               onClick={() => setDomainsOpen(!domainsOpen)}
-              className="flex w-full items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-800 transition hover:bg-slate-100"
+              className="flex w-full items-center justify-center gap-2 rounded-md border border-[var(--border-light)] bg-[var(--bg-white)] px-3 py-2 text-sm font-medium text-[var(--text-primary)] transition hover:bg-[var(--user-bubble)]"
               title="Switch to a domain"
             >
               <Layers className="h-4 w-4" />
@@ -133,31 +133,31 @@ export function Sidebar({
               />
             </button>
             {domainsOpen && (
-              <div className="absolute bottom-full left-0 mb-1 w-full rounded-md border border-slate-200 bg-white py-1 shadow-lg">
+              <div className="absolute bottom-full left-0 mb-1 w-full rounded-md border border-[var(--border-light)] bg-[var(--bg-white)] py-1 shadow-lg">
                 {hasDomains &&
                   allDomains.map((domain) => (
                     <button
                       key={domain.id}
                       type="button"
                       onClick={() => handleSelectDomain(domain.id)}
-                      className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-slate-700 transition hover:bg-slate-100"
+                      className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-[var(--text-secondary)] transition hover:bg-[var(--user-bubble)]"
                     >
                       <span
                         className="inline-flex h-2 w-2 rounded-full"
                         style={{ backgroundColor: domain.color || '#64748b' }}
                       />
                       <span className="flex-1 truncate">{domain.name}</span>
-                      <span className="text-xs text-slate-400">{domain.appIds.length}</span>
+                      <span className="text-xs text-[var(--text-tertiary)]">{domain.appIds.length}</span>
                     </button>
                   ))}
-                {hasDomains && <div className="my-1 border-t border-slate-200" />}
+                {hasDomains && <div className="my-1 border-t border-[var(--border-light)]" />}
                 <button
                   type="button"
                   onClick={() => {
                     setDomainsOpen(false);
                     onOpenSettings('domains');
                   }}
-                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-slate-600 transition hover:bg-slate-100"
+                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-[var(--text-secondary)] transition hover:bg-[var(--user-bubble)]"
                 >
                   <Plus className="h-3.5 w-3.5" />
                   <span>New Domain...</span>
@@ -170,7 +170,7 @@ export function Sidebar({
           <button
             type="button"
             onClick={onToggleLayoutMode}
-            className="flex w-full items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-800 transition hover:bg-slate-100"
+            className="flex w-full items-center justify-center gap-2 rounded-md border border-[var(--border-light)] bg-[var(--bg-white)] px-3 py-2 text-sm font-medium text-[var(--text-primary)] transition hover:bg-[var(--user-bubble)]"
             title="Enter Full UI mode"
           >
             <Maximize2 className="h-4 w-4" />
@@ -180,7 +180,7 @@ export function Sidebar({
         <button
           type="button"
           onClick={() => onOpenSettings()}
-          className="flex w-full items-center justify-center rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-800 transition hover:bg-slate-100"
+          className="flex w-full items-center justify-center rounded-md border border-[var(--border-light)] bg-[var(--bg-white)] px-3 py-2 text-sm font-medium text-[var(--text-primary)] transition hover:bg-[var(--user-bubble)]"
         >
           Settings
         </button>

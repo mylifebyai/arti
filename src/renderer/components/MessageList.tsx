@@ -47,19 +47,19 @@ export default function MessageList({
             className={`w-full rounded-3xl px-6 py-8 text-center shadow-md ${
               tone === 'dark' ?
                 'border border-white/10 bg-white/[0.03] text-slate-100 shadow-black/40'
-              : 'border border-neutral-200/60 bg-white/90 text-neutral-800 shadow-neutral-200/60'
+              : 'border border-[var(--border-light)] bg-[var(--user-bubble)] text-[var(--text-primary)] shadow-[var(--shadow-soft)]'
             }`}
           >
             <p
               className={`text-[11px] font-semibold tracking-[0.35em] uppercase ${
-                tone === 'dark' ? 'text-slate-400' : 'text-neutral-400'
+                tone === 'dark' ? 'text-slate-400' : 'text-[var(--text-tertiary)]'
               }`}
             >
               Claude SDK Starter Kit
             </p>
             <h2
               className={`mt-2 text-xl font-semibold ${
-                tone === 'dark' ? 'text-slate-50' : 'text-neutral-900'
+                tone === 'dark' ? 'text-slate-50' : 'text-[var(--text-primary)]'
               }`}
             >
               {suggestion}
@@ -81,7 +81,7 @@ export default function MessageList({
           />
         ))}
         {isLoading && (
-          <div className="flex items-center gap-2 px-3 py-1.5 text-xs text-neutral-400 dark:text-neutral-500">
+          <div className="flex items-center gap-2 px-3 py-1.5 text-xs text-[var(--text-tertiary)]">
             <Loader2 className="h-3 w-3 animate-spin" />
             <span>Streaming response...</span>
           </div>

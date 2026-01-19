@@ -345,24 +345,24 @@ export default function App() {
       {/* Switching layout mode only changes padding, never remounts apps.  */}
       {/* ================================================================== */}
       <div
-        className={`fixed inset-0 bg-slate-50 ${
+        className={`fixed inset-0 bg-[var(--bg-cream)] ${
           showAppContent ? '' : 'pointer-events-none invisible'
         }`}
         style={{ paddingLeft: effectiveLayoutMode === 'standard' ? '16rem' : 0 }}
       >
         {/* Standard mode header - only shown in standard layout */}
         {effectiveLayoutMode === 'standard' && (
-          <div className="flex items-center justify-between border-b border-slate-200 bg-white/80 px-6 py-4 backdrop-blur">
+          <div className="flex items-center justify-between border-b border-[var(--border-light)] bg-[var(--bg-white)]/80 px-6 py-4 backdrop-blur">
             <div>
-              <p className="text-xs tracking-wide text-slate-500 uppercase">Active app</p>
-              <h1 className="text-xl font-semibold text-slate-900">
+              <p className="text-xs tracking-wide text-[var(--text-tertiary)] uppercase">Active app</p>
+              <h1 className="text-xl font-semibold text-[var(--text-primary)]">
                 {activeApp?.name ?? 'Unknown app'}
               </h1>
             </div>
             <button
               type="button"
               onClick={() => setShowExportModal(true)}
-              className="flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
+              className="flex items-center gap-2 rounded-lg border border-[var(--border-light)] bg-[var(--bg-white)] px-3 py-2 text-sm font-medium text-[var(--text-secondary)] transition-colors hover:bg-[var(--user-bubble)]"
               title="Export app as standalone project"
             >
               <Package className="h-4 w-4" />
@@ -395,7 +395,7 @@ export default function App() {
 
       {/* Standard mode: Sidebar on the left */}
       {showAppContent && effectiveLayoutMode === 'standard' && (
-        <div className="fixed top-0 bottom-0 left-0 z-10 w-64 border-r border-slate-200">
+        <div className="fixed top-0 bottom-0 left-0 z-10 w-64 border-r border-[var(--border-light)]">
           <Sidebar
             apps={apps}
             activeAppId={activeAppId}
