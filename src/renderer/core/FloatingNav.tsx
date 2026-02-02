@@ -78,7 +78,11 @@ export default function FloatingNav({
           </button>
         </div>
 
-        <span className="text-sm font-medium text-white/70">{appName}</span>
+        <span
+          className="text-lg font-semibold text-white/90"
+        >
+          arti 🟣
+        </span>
 
         <div className="flex items-center gap-1">
           {onExport && (

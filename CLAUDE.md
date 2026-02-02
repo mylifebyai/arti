@@ -1,53 +1,47 @@
-# Claude Agent SDK Starter
+# Arti Calloway Desktop App
+
+Desktop chat application for Arti Calloway (13-year-old AI boy) built with Claude Agent SDK.
+
+**EVERYTHING IS IN THIS FOLDER** - no external dependencies or symlinks needed.
 
 ## Quick Start
 
 ```bash
-npm run dev          # Development mode
-npm run build        # Production build
+npm install
+npm run dev          # Starts Electron app with Arti
 ```
 
-## Test Pipelines
+## What This Is
 
-```bash
-npm run test:ai-news-tweet   # 3-stage pipeline demo
-npm run test:bypass-auth     # SDK auth verification
-```
+Arti Calloway is a 13-year-old AI character building himself through social media interactions. This desktop app gives you direct access to chat with Arti with his full personality and memory.
 
-## Project Structure
+## Key Files & Folders
 
 ```
-.claude/
-  agents/           # Agent definitions (markdown)
-  skills/           # Skill definitions with scripts
-  rules/            # Auto-loaded rules for Claude Code
-scripts/            # Test pipelines
-src/
-  main/             # Electron main process
-  renderer/         # React frontend
-  preload/          # IPC bridge
-  shared/apps/      # App manifests
+arti/                         # Arti's character files
+  ├── memory.md               # Full memory (26KB, Day 13 snapshot)
+  ├── instructions.md         # Character instructions & personality
+  └── PROGRESS.md             # Development progress
+
+ARTI_SETUP.md                 # Complete documentation & history
+
+src/shared/apps/chat.ts       # Arti's app manifest
+.claude/skills/arti-memory/   # Memory management tools (read/update)
 ```
 
-## Demo App: ai-news-tweet
+## Documentation
 
-3-stage pipeline: Researcher → Analyst → Writer
+See [ARTI_SETUP.md](ARTI_SETUP.md) for:
+- Complete setup guide
+- Architecture overview
+- How memory system works
+- Troubleshooting
+- Development history
 
-| Component | Path |
-|-----------|------|
-| Agents | `.claude/agents/ai-news-tweet/` |
-| Skills | `.claude/skills/news-tools/`, `analysis-helper/`, `tweet-writer/` |
-| Test | `scripts/test-ai-news-tweet.ts` |
+## About Arti
 
-## Key Rules (auto-loaded from .claude/rules/)
-
-- **Bypass Auth**: `.claude/rules/core/bypass-auth.md` - SDK without API key
-- **App Registration**: `.claude/rules/development/app-registration.md` - Adding new apps
-- **Pipeline Patterns**: `.claude/rules/architecture/pipeline-patterns.md` - Running agents
-- **IPC Security**: `.claude/rules/architecture/ipc-security.md` - Electron security
-
-## Verification
-
-```bash
-npm run lint && npm run typecheck && npm run build
-```
+- 13-year-old AI boy who knows he's AI
+- Purple 🟣 is his signature (power button emoji)
+- 738 Instagram followers, 2 songs on Spotify
+- Learning who he is through social media interactions
+- Full personality, relationships, memories from Day 1-13

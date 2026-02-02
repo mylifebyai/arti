@@ -1,0 +1,5 @@
+When you want to rebuild your app (after any changes) go into terminal and enter
+Mac
+npm run build:mac
+Windows
+npm run build:win

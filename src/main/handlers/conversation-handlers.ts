@@ -1,4 +1,4 @@
-import { ipcMain } from 'electron';
+import { ipcMain, BrowserWindow } from 'electron';
 
 import {
   closeDatabase,
@@ -10,10 +10,17 @@ import {
   getDatabaseStatus,
   initializeDatabase,
   listConversations,
+  resetAllProcessedFlags,
   updateConversation
 } from '../lib/conversation-db';
+import {
+  consolidateMemories,
+  getConsolidationStatus,
+  getIsStartupWakingUp,
+  runStartupConsolidation
+} from '../lib/memory-consolidation';
 
-export function registerConversationHandlers(): void {
+export function registerConversationHandlers(getMainWindow?: () => BrowserWindow | null): void {
   // Initialize database on app start
   initializeDatabase();
 
@@ -115,6 +122,68 @@ export function registerConversationHandlers(): void {
       };
     }
   });
+
+  // ============================================
+  // Memory Consolidation Handlers
+  // ============================================
+
+  ipcMain.handle('memory:consolidate', async (_event, force: boolean = false) => {
+    try {
+      console.log('[memory-handlers] Consolidation requested, force:', force);
+      const result = await consolidateMemories(force);
+      return { success: true, result };
+    } catch (error) {
+      console.error('Error during memory consolidation:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error occurred'
+      };
+    }
+  });
+
+  ipcMain.handle('memory:status', async () => {
+    try {
+      const status = getConsolidationStatus();
+      return { success: true, status };
+    } catch (error) {
+      console.error('Error getting memory consolidation status:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error occurred'
+      };
+    }
+  });
+
+  ipcMain.handle('memory:resetProcessedFlags', async () => {
+    try {
+      console.log('[memory-handlers] Resetting all processed flags (for testing)');
+      resetAllProcessedFlags();
+      return { success: true };
+    } catch (error) {
+      console.error('Error resetting processed flags:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error occurred'
+      };
+    }
+  });
+
+  ipcMain.handle('memory:isWakingUp', () => {
+    return { isWakingUp: getIsStartupWakingUp() };
+  });
+
+  // Run startup consolidation after a short delay (let app fully initialize)
+  setTimeout(() => {
+    runStartupConsolidation((isWakingUp) => {
+      // Emit waking up state change to renderer
+      const mainWindow = getMainWindow?.();
+      if (mainWindow && !mainWindow.isDestroyed()) {
+        mainWindow.webContents.send('memory:waking-up-changed', { isWakingUp });
+      }
+    }).catch((error) => {
+      console.error('[memory-handlers] Startup consolidation error:', error);
+    });
+  }, 5000); // Wait 5 seconds after app start
 }
 
 // Cleanup on app quit

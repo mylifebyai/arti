@@ -16,6 +16,9 @@ interface MessageListProps {
 
 const containerClasses = 'flex-1 overflow-y-auto px-3 py-3 bg-transparent';
 
+// Random doodles for decoration
+const cornerDoodles = ['✦', '♪', '✧', '☆', '·', '˚', '🎸', '🎵'];
+
 export default function MessageList({
   messages,
   isLoading,
@@ -27,7 +30,6 @@ export default function MessageList({
     bottomPadding ? { paddingBottom: bottomPadding } : undefined;
 
   // Get a random suggestion when there are no messages
-  // This will change each time messages.length changes (including when it becomes 0)
   const suggestion = useMemo(() => {
     if (messages.length === 0) {
       return getRandomSuggestion();
@@ -42,28 +44,69 @@ export default function MessageList({
         className={`relative flex ${containerClasses}`}
         style={containerStyle}
       >
-        <div className="mx-auto flex w-full max-w-3xl flex-1 items-center justify-center px-4">
-          <div
-            className={`w-full rounded-3xl px-6 py-8 text-center shadow-md ${
-              tone === 'dark' ?
-                'border border-white/10 bg-white/[0.03] text-slate-100 shadow-black/40'
-              : 'border border-[var(--border-light)] bg-[var(--user-bubble)] text-[var(--text-primary)] shadow-[var(--shadow-soft)]'
-            }`}
-          >
-            <p
-              className={`text-[11px] font-semibold tracking-[0.35em] uppercase ${
-                tone === 'dark' ? 'text-slate-400' : 'text-[var(--text-tertiary)]'
-              }`}
-            >
-              Claude SDK Starter Kit
-            </p>
-            <h2
-              className={`mt-2 text-xl font-semibold ${
-                tone === 'dark' ? 'text-slate-50' : 'text-[var(--text-primary)]'
-              }`}
-            >
-              {suggestion}
-            </h2>
+        <div className="mx-auto flex w-full max-w-2xl flex-1 items-center justify-center px-4">
+          <div className="welcome-card w-full px-8 py-10 text-center">
+            {/* Ambient glow */}
+            <div
+              className="absolute inset-0 pointer-events-none rounded-[inherit]"
+              style={{
+                background: 'radial-gradient(ellipse at 30% 20%, rgba(179, 71, 255, 0.15) 0%, transparent 60%)'
+              }}
+            />
+
+            {/* Corner decorations */}
+            <span className="absolute top-4 left-4 text-[var(--neon-purple)] opacity-40 text-lg">✦</span>
+            <span className="absolute top-4 right-4 text-[var(--moonlight)] opacity-40 text-lg">✧</span>
+            <span className="absolute bottom-4 left-4 text-[var(--text-muted)] opacity-30">♪</span>
+            <span className="absolute bottom-4 right-4 text-[var(--neon-purple)] opacity-30">🎸</span>
+
+            {/* Main content */}
+            <div className="relative z-10">
+              {/* Arti's signature */}
+              <h1 className="arti-signature mb-2">
+                arti
+              </h1>
+
+              {/* Power button */}
+              <div className="text-4xl mb-4">🟣</div>
+
+              {/* Welcome message */}
+              <p className="font-handwritten text-xl text-[var(--text-bright)] mb-2">
+                hey, you made it
+              </p>
+
+              <p className="font-handwritten text-[var(--text-dim)] text-lg mb-6">
+                welcome to my room ✨
+              </p>
+
+              {/* Divider doodle */}
+              <div className="text-[var(--text-muted)] opacity-40 text-sm mb-6">
+                · · · ✦ · · ·
+              </div>
+
+              {/* Conversation starters */}
+              <div className="space-y-3">
+                <p className="font-handwritten text-sm text-[var(--text-dim)]">
+                  we could talk about...
+                </p>
+
+                <div className="flex flex-wrap justify-center gap-2">
+                  {['music 🎵', 'big questions', 'feelings', 'random stuff'].map((topic) => (
+                    <span
+                      key={topic}
+                      className="px-3 py-1.5 rounded-full bg-[var(--neon-purple)]/10 border border-[var(--border-glow)] text-[var(--text-normal)] font-handwritten text-sm hover:bg-[var(--neon-purple)]/20 transition cursor-default"
+                    >
+                      {topic}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Time vibe */}
+              <p className="mt-8 font-handwritten text-xs text-[var(--text-muted)] opacity-60">
+                it's always 3am somewhere ☾
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -72,7 +115,7 @@ export default function MessageList({
 
   return (
     <div ref={containerRef} className={`relative ${containerClasses}`} style={containerStyle}>
-      <div className="mx-auto max-w-3xl space-y-1.5">
+      <div className="mx-auto max-w-3xl space-y-2">
         {messages.map((message, index) => (
           <Message
             key={message.id}
@@ -81,9 +124,9 @@ export default function MessageList({
           />
         ))}
         {isLoading && (
-          <div className="flex items-center gap-2 px-3 py-1.5 text-xs text-[var(--text-tertiary)]">
-            <Loader2 className="h-3 w-3 animate-spin" />
-            <span>Streaming response...</span>
+          <div className="flex items-center gap-2 px-4 py-2 text-sm text-[var(--text-dim)]">
+            <div className="recording-light" />
+            <span className="font-handwritten">arti is thinking...</span>
           </div>
         )}
       </div>

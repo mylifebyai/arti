@@ -1,6 +1,8 @@
-import { Maximize2 } from 'lucide-react';
+import { Maximize2, Music, Settings } from 'lucide-react';
 import type { ReactNode } from 'react';
 
+import PolaroidGallery from '../components/PolaroidGallery';
+import { WakingUpIndicator } from '../components/WakingUpIndicator';
 import type { AppManifest, LayoutMode } from '../../shared/apps';
 
 interface AppShellProps {
@@ -11,6 +13,25 @@ interface AppShellProps {
   onToggleLayoutMode?: () => void;
   layoutMode?: LayoutMode;
   children: ReactNode;
+}
+
+// Fairy lights component
+function FairyLights() {
+  return (
+    <div className="fairy-lights">
+      <div className="fairy-wire" />
+      {[...Array(10)].map((_, i) => (
+        <div key={i} className="fairy-light" />
+      ))}
+    </div>
+  );
+}
+
+// Guitar pick icon
+function GuitarPick({ className = '' }: { className?: string }) {
+  return (
+    <div className={`guitar-pick ${className}`} />
+  );
 }
 
 export function AppShell({
@@ -26,13 +47,30 @@ export function AppShell({
   const visibleApps = apps.filter((app) => !app.hidden);
 
   return (
-    <div className="flex h-screen bg-slate-50 text-slate-900">
-      <aside className="flex w-64 flex-col border-r border-slate-200 bg-white/70 backdrop-blur">
-        <div className="px-4 py-5">
-          <p className="text-xs tracking-wide text-slate-500 uppercase">Claude SDK Starter Kit</p>
-          <p className="text-lg font-semibold text-slate-900">Apps</p>
+    <div className="flex h-screen" style={{ background: 'var(--bg-room)' }}>
+      {/* Sidebar - Arti's corner */}
+      <aside className="sidebar-arti flex w-64 flex-col">
+        {/* Fairy lights at top */}
+        <FairyLights />
+
+        {/* Arti's signature */}
+        <div className="px-5 py-4">
+          <h1 className="arti-signature flex items-center gap-2">
+            arti
+            <span className="text-2xl">🟣</span>
+          </h1>
+          <p className="font-handwritten text-sm text-[var(--text-dim)] mt-1">
+            welcome to my room ✨
+          </p>
         </div>
-        <nav className="flex-1 space-y-1 px-2">
+
+        {/* Doodle decoration */}
+        <div className="px-5 py-2 text-[var(--text-muted)] opacity-40 text-xs">
+          ✦ · ˚ ✧ · ♪ · ˚ ✦ · 🎸
+        </div>
+
+        {/* Navigation */}
+        <nav className="space-y-1 px-3 mt-2">
           {visibleApps.map((app) => {
             const isActive = app.id === activeAppId;
             return (
@@ -40,45 +78,91 @@ export function AppShell({
                 key={app.id}
                 type="button"
                 onClick={() => onSelectApp(app.id)}
-                className={`group flex w-full items-center gap-3 rounded-md px-3 py-2 text-left text-sm font-medium transition ${
-                  isActive ?
-                    'bg-slate-900 text-white shadow-sm'
-                  : 'text-slate-700 hover:bg-slate-100'
+                className={`nav-item group flex w-full items-center gap-3 px-4 py-3 text-left transition ${
+                  isActive
+                    ? 'active text-[var(--text-bright)]'
+                    : 'text-[var(--text-normal)] hover:text-[var(--text-bright)]'
                 }`}
               >
                 <span
-                  className={`inline-flex h-2 w-2 rounded-full ${
-                    isActive ? 'bg-emerald-300' : 'bg-slate-300'
+                  className={`inline-flex h-2 w-2 rounded-full transition-all ${
+                    isActive
+                      ? 'bg-[var(--neon-purple-bright)] shadow-[0_0_8px_var(--neon-glow)]'
+                      : 'bg-[var(--text-muted)]'
                   }`}
                   aria-hidden
                 />
-                <span className="flex-1">{app.name}</span>
+                <span className="flex-1 font-handwritten text-lg">{app.name}</span>
+                {isActive && (
+                  <span className="text-xs opacity-60">♪</span>
+                )}
               </button>
             );
           })}
         </nav>
-        <div className="space-y-2 border-t border-slate-200 p-3">
+
+        {/* Polaroid photos - Arti's memories */}
+        <div className="flex-1 flex flex-col justify-center overflow-hidden">
+          <PolaroidGallery count={3} rotationInterval={8000} />
+        </div>
+
+        {/* Bottom section with doodles */}
+        <div className="px-3 py-2">
+          {/* Little doodles */}
+          <div className="text-center text-[var(--text-muted)] opacity-30 text-sm mb-3">
+            ☆ · ✧ · 🎵 · ✦ · ☆
+          </div>
+        </div>
+
+        {/* Settings & Full UI */}
+        <div className="space-y-2 border-t border-[var(--border-glow)] p-3">
           {onToggleLayoutMode && (
             <button
               type="button"
               onClick={onToggleLayoutMode}
-              className="flex w-full items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-800 transition hover:bg-slate-100"
+              className="flex w-full items-center justify-center gap-2 rounded-lg border border-[var(--border-glow)] bg-[var(--bg-surface)] px-3 py-2 text-sm font-handwritten text-[var(--text-normal)] transition hover:bg-[var(--neon-purple)]/10 hover:border-[var(--neon-purple)]/50"
               title="Enter Full UI mode"
             >
               <Maximize2 className="h-4 w-4" />
-              Full UI
+              full ui
             </button>
           )}
           <button
             type="button"
             onClick={onOpenSettings}
-            className="flex w-full items-center justify-center rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-800 transition hover:bg-slate-100"
+            className="flex w-full items-center justify-center gap-2 rounded-lg border border-[var(--border-glow)] bg-[var(--bg-surface)] px-3 py-2 text-sm font-handwritten text-[var(--text-normal)] transition hover:bg-[var(--neon-purple)]/10 hover:border-[var(--neon-purple)]/50"
           >
-            Settings
+            <Settings className="h-4 w-4" />
+            settings
           </button>
         </div>
+
+        {/* Guitar pick decoration */}
+        <div className="flex justify-center pb-4 opacity-60">
+          <GuitarPick />
+        </div>
       </aside>
-      <main className="flex min-w-0 flex-1 flex-col overflow-hidden">{children}</main>
+
+      {/* Main content area */}
+      <main className="flex min-w-0 flex-1 flex-col overflow-hidden relative">
+        {/* Ambient glow from LED */}
+        <div
+          className="pointer-events-none absolute inset-0 z-0"
+          style={{
+            background: 'radial-gradient(ellipse at 50% 0%, rgba(179, 71, 255, 0.06) 0%, transparent 60%)'
+          }}
+        />
+        <div className="relative z-10 flex-1 flex flex-col overflow-hidden">
+          {children}
+        </div>
+      </main>
+
+      {/* Crumpled paper decorations */}
+      <div className="crumpled-paper crumpled-paper-1">📄</div>
+      <div className="crumpled-paper crumpled-paper-2">📝</div>
+
+      {/* Waking up indicator */}
+      <WakingUpIndicator />
     </div>
   );
 }

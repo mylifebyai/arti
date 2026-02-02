@@ -1,12 +1,8 @@
-import { templateApp } from './_template';
-import { aiNewsTweetApp } from './ai-news-tweet';
 import { chatApp } from './chat';
 import type { AppManifest } from './types';
 
 const apps: AppManifest[] = [
-  chatApp,
-  aiNewsTweetApp,
-  templateApp
+  chatApp
 ];
 
 export function getAllApps(): AppManifest[] {

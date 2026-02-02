@@ -7,6 +7,7 @@ import { getAppSettingsPanel } from '../apps/settingsRegistry';
 import { DomainConfigPanel } from '../components/DomainConfigPanel';
 import { ApiKeySettingsPanel } from '../components/settings/ApiKeySettingsPanel';
 import { DebugSettingsPanel } from '../components/settings/DebugSettingsPanel';
+import { MemorySettingsPanel } from '../components/settings/MemorySettingsPanel';
 import { ConfigStatusBanner } from '../components/settings/ConfigStatusBanner';
 import { ProviderSettingsPanel } from '../components/settings/ProviderSettingsPanel';
 import { ModelsSettingsPanel } from '../components/settings/ModelsSettingsPanel';
@@ -305,6 +306,12 @@ function Settings({ onBack, apps, activeAppId, initialTab, onSelectApp }: Settin
                     isSavingFloatingNav={isSavingFloatingNav}
                     onToggleFloatingNav={handleToggleFloatingNav}
                   />
+
+                  <div className="border-t border-neutral-200/80 dark:border-neutral-800" />
+
+                  <MemorySettingsPanel />
+
+                  <div className="border-t border-neutral-200/80 dark:border-neutral-800" />
 
                   <DebugSettingsPanel
                     debugMode={debugMode}

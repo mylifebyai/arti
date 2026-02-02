@@ -352,7 +352,7 @@ export default function App() {
       >
         {/* Standard mode header - only shown in standard layout */}
         {effectiveLayoutMode === 'standard' && (
-          <div className="flex items-center justify-between border-b border-[var(--border-light)] bg-[var(--bg-white)]/80 px-6 py-4 backdrop-blur">
+          <div className="flex items-center justify-between border-b border-[var(--border-light)] bg-[var(--bg-white)]/80 px-6 py-4 backdrop-blur [-webkit-app-region:drag]">
             <div>
               <p className="text-xs tracking-wide text-[var(--text-tertiary)] uppercase">Active app</p>
               <h1 className="text-xl font-semibold text-[var(--text-primary)]">
@@ -362,7 +362,7 @@ export default function App() {
             <button
               type="button"
               onClick={() => setShowExportModal(true)}
-              className="flex items-center gap-2 rounded-lg border border-[var(--border-light)] bg-[var(--bg-white)] px-3 py-2 text-sm font-medium text-[var(--text-secondary)] transition-colors hover:bg-[var(--user-bubble)]"
+              className="flex items-center gap-2 rounded-lg border border-[var(--border-light)] bg-[var(--bg-white)] px-3 py-2 text-sm font-medium text-[var(--text-secondary)] transition-colors hover:bg-[var(--user-bubble)] [-webkit-app-region:no-drag]"
               title="Export app as standalone project"
             >
               <Package className="h-4 w-4" />

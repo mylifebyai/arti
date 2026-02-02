@@ -4,6 +4,7 @@ import ChatApp from './chat';
 
 export function getAppComponent(appId: string) {
   switch (appId) {
+    case 'arti':
     case 'chat':
       return ChatApp;
     case 'ai-news-tweet':
@@ -19,6 +20,7 @@ export function getAppComponent(appId: string) {
 // This avoids the "component created during render" lint error
 export function AppRenderer({ appId, isPopout: _isPopout }: { appId: string; isPopout?: boolean }) {
   switch (appId) {
+    case 'arti':
     case 'chat':
       return <ChatApp />;
     case 'ai-news-tweet':

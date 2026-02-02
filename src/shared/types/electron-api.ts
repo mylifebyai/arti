@@ -675,6 +675,34 @@ export interface AiNewsTweetBridge {
   }>;
 }
 
+// ============================================================================
+// Memory Consolidation Types
+// ============================================================================
+
+export interface ConsolidationResult {
+  success: boolean;
+  conversationsProcessed: number;
+  memoriesAdded: string | null;
+  backupPath?: string;
+  error?: string;
+}
+
+export interface ConsolidationStatus {
+  unprocessedCount: number;
+  lastConsolidatedAt: number | null;
+  canConsolidate: boolean;
+  nextConsolidationAllowedAt: number | null;
+  isInProgress: boolean;
+}
+
+export interface MemoryBridge {
+  consolidate: (force?: boolean) => Promise<{ success: boolean; result?: ConsolidationResult; error?: string }>;
+  getStatus: () => Promise<{ success: boolean; status?: ConsolidationStatus; error?: string }>;
+  resetProcessedFlags: () => Promise<{ success: boolean; error?: string }>;
+  isWakingUp: () => Promise<{ isWakingUp: boolean }>;
+  onWakingUpChanged: (callback: (data: { isWakingUp: boolean }) => void) => () => void;
+}
+
 export interface ExportBridge {
   getApps: () => Promise<{
     apps: Array<{ id: string; name: string; description?: string; skills: string[] }>;
@@ -781,4 +809,5 @@ export interface ElectronAPI {
   apps: AppsBridge;
   aiNewsTweet: AiNewsTweetBridge;
   export: ExportBridge;
+  memory: MemoryBridge;
 }

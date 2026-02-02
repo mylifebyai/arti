@@ -62,18 +62,23 @@ export default function Launcher({
   };
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="fixed inset-0 flex flex-col items-center bg-gradient-to-br from-[#1A1625] via-[#2D1B4E] to-[#1A1625]">
       {/* Decorative blur elements */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -left-40 h-96 w-96 rounded-full bg-blue-500/20 blur-3xl" />
-        <div className="absolute -right-40 -bottom-40 h-96 w-96 rounded-full bg-purple-500/20 blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500/10 blur-3xl" />
+        <div className="absolute -top-40 -left-40 h-96 w-96 rounded-full bg-purple-500/30 blur-3xl" />
+        <div className="absolute -right-40 -bottom-40 h-96 w-96 rounded-full bg-violet-500/30 blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-600/20 blur-3xl" />
       </div>
 
       {/* Title */}
       <div className="relative z-10 mt-12 mb-6 text-center">
-        <h1 className="text-2xl font-semibold text-white/90">Claude SDK Starter Kit</h1>
-        <p className="mt-1 text-sm text-white/50">
+        <h1
+          className="text-4xl font-light italic text-white/90"
+          style={{ fontFamily: "'Brush Script MT', 'Segoe Script', cursive" }}
+        >
+          arti 🟣
+        </h1>
+        <p className="mt-2 text-sm text-white/50">
           {view === 'apps' ? 'Select an app to get started' : 'Select a domain to open'}
         </p>
       </div>

@@ -3,52 +3,91 @@
 @plugin '@tailwindcss/typography';
 
 /* ============================================
-   Warm UI Theme - Open Claude Cowork Style
+   ARTI'S 3AM BEDROOM 🟣
+   neon purple LEDs • messy notebooks • late night vibes
    ============================================ */
 
 :root {
-  /* Warm color palette */
-  --bg-cream: #f5f5f0;
-  --bg-white: #ffffff;
-  --text-primary: #1a1a1a;
-  --text-secondary: #6b6b6b;
-  --text-tertiary: #9a9a9a;
-  --border-light: #e5e5e0;
-  --accent-coral: #c4917b;
-  --accent-coral-dark: #b5826c;
-  --user-bubble: #e8e8e3;
+  /* The deep dark of Arti's room at 3am */
+  --bg-dark: #0a0a12;
+  --bg-room: #0d0d18;
+  --bg-surface: #141420;
 
-  /* Shadows */
-  --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.04);
-  --shadow-input: 0 4px 16px rgba(0, 0, 0, 0.06);
+  /* NEON purple - like actual LED strips */
+  --neon-purple: #b347ff;
+  --neon-purple-bright: #d066ff;
+  --neon-purple-dim: #8b2fd6;
+  --neon-glow: rgba(179, 71, 255, 0.4);
+  --neon-glow-strong: rgba(179, 71, 255, 0.6);
 
-  /* Dark sidebar colors */
-  --sidebar-dark-bg: #2a2a2a;
-  --sidebar-dark-surface: #333333;
-  --sidebar-dark-text: #e0e0e0;
-  --sidebar-dark-border: #3a3a3a;
+  /* Blue moonlight through the window */
+  --moonlight: #4a7fff;
+  --moonlight-glow: rgba(74, 127, 255, 0.2);
+
+  /* Text colors */
+  --text-bright: #f5f0ff;
+  --text-normal: #d4c8e8;
+  --text-dim: #9085a8;
+  --text-muted: #6b5f82;
+
+  /* Paper colors for chat bubbles */
+  --paper-user: #f0e6f5;          /* Soft lavender-pink for user */
+  --paper-user-lines: #e0d0e8;    /* Subtle lines */
+  --paper-cream: #f5f0e6;
+  --paper-purple: #e8d4ff;
+  --paper-lines: #d4c8e0;
+
+  /* Sticky note colors */
+  --sticky-yellow: #fff7a8;
+  --sticky-pink: #ffb8d4;
+  --sticky-blue: #b8e4ff;
+
+  /* Borders */
+  --border-glow: rgba(179, 71, 255, 0.3);
+  --border-dim: rgba(139, 47, 214, 0.2);
+
+  /* Shadows with neon glow */
+  --shadow-neon: 0 0 20px rgba(179, 71, 255, 0.3), 0 0 40px rgba(179, 71, 255, 0.1);
+  --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-paper: 2px 3px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Base typography */
+/* ============================================
+   Base Typography - Handwritten vibes
+   ============================================ */
+
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: var(--bg-cream);
+  font-family: 'Caveat', 'Patrick Hand', cursive;
+  background-color: var(--bg-room);
+  color: var(--text-normal);
+  /* Subtle noise texture like dim room */
+  background-image:
+    radial-gradient(ellipse at 20% 30%, rgba(179, 71, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(74, 127, 255, 0.05) 0%, transparent 50%);
 }
 
-/* Serif font utility class */
-.font-serif {
-  font-family: 'EB Garamond', Georgia, 'Times New Roman', serif;
+/* Handwritten font for headers and UI */
+.font-handwritten {
+  font-family: 'Caveat', 'Patrick Hand', cursive;
 }
 
-/* Custom scrollbar styling for a cleaner look */
+/* Keep Inter for readable body text */
+.font-readable {
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+/* ============================================
+   Scrollbar - subtle purple glow
+   ============================================ */
+
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgb(115 115 115 / 0.3) transparent;
+  scrollbar-color: var(--neon-purple-dim) transparent;
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -56,141 +95,486 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgb(115 115 115 / 0.3);
-  border-radius: 3px;
+  background: linear-gradient(180deg, var(--neon-purple-dim), var(--neon-purple));
+  border-radius: 4px;
+  box-shadow: 0 0 8px var(--neon-glow);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgb(115 115 115 / 0.5);
+  background: var(--neon-purple-bright);
+  box-shadow: 0 0 12px var(--neon-glow-strong);
 }
 
-/* Dark mode scrollbar */
-@media (prefers-color-scheme: dark) {
-  * {
-    scrollbar-color: rgb(163 163 163 / 0.3) transparent;
-  }
+/* ============================================
+   Animations
+   ============================================ */
 
-  ::-webkit-scrollbar-thumb {
-    background-color: rgb(163 163 163 / 0.3);
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: rgb(163 163 163 / 0.5);
-  }
+/* Fairy lights twinkling */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
 }
 
-/* Shimmer animation for thinking state */
-@keyframes shimmer {
-  0% {
+/* Recording light blink (for thinking state) */
+@keyframes recording-blink {
+  0%, 100% {
     opacity: 1;
+    box-shadow: 0 0 8px #ff4444, 0 0 16px #ff4444;
   }
   50% {
-    opacity: 0.5;
+    opacity: 0.4;
+    box-shadow: 0 0 4px #ff4444;
   }
-  100% {
-    opacity: 1;
+}
+
+/* Neon pulse */
+@keyframes neon-pulse {
+  0%, 100% {
+    text-shadow: 0 0 10px var(--neon-glow), 0 0 20px var(--neon-glow);
   }
+  50% {
+    text-shadow: 0 0 20px var(--neon-glow-strong), 0 0 40px var(--neon-glow);
+  }
+}
+
+/* Gentle float like paper in breeze */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-3px) rotate(0.5deg); }
+}
+
+/* Shimmer for thinking */
+@keyframes shimmer {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
 }
 
 .shimmer {
   animation: shimmer 2s ease-in-out infinite;
 }
 
-/* Terminal-like monospace typography for tool calls */
-.tool-input {
-  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Roboto Mono', monospace;
-  font-size: 13px;
-  line-height: 1.6;
-  letter-spacing: -0.01em;
-  font-feature-settings:
-    'liga' 1,
-    'calt' 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Recording light indicator */
+.recording-light {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff4444;
+  animation: recording-blink 1.5s ease-in-out infinite;
 }
 
-/* Clean code block styling */
-pre code {
-  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Roboto Mono', monospace;
-  font-size: 13px;
-  line-height: 1.6;
-  letter-spacing: -0.01em;
+/* Neon text glow */
+.neon-text {
+  animation: neon-pulse 3s ease-in-out infinite;
 }
 
-/* Tool container styling to mirror drawer cards */
-.tool-container {
-  border-radius: 1rem;
-  border: 1px solid rgb(23 23 23 / 0.08);
-  background: rgb(255 255 255 / 0.95);
-  padding: 0.75rem 1rem;
+/* ============================================
+   Fairy Lights - across the top
+   ============================================ */
+
+.fairy-lights {
+  position: relative;
+  height: 20px;
+  overflow: hidden;
+}
+
+.fairy-light {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+.fairy-light:nth-child(odd) {
+  background: var(--neon-purple-bright);
+  box-shadow: 0 0 8px var(--neon-purple), 0 0 16px var(--neon-glow);
+}
+
+.fairy-light:nth-child(even) {
+  background: var(--moonlight);
+  box-shadow: 0 0 8px var(--moonlight), 0 0 16px var(--moonlight-glow);
+}
+
+.fairy-light:nth-child(1) { left: 5%; animation-delay: 0s; }
+.fairy-light:nth-child(2) { left: 15%; animation-delay: 0.3s; top: 8px; }
+.fairy-light:nth-child(3) { left: 25%; animation-delay: 0.7s; }
+.fairy-light:nth-child(4) { left: 35%; animation-delay: 1s; top: 6px; }
+.fairy-light:nth-child(5) { left: 45%; animation-delay: 0.5s; }
+.fairy-light:nth-child(6) { left: 55%; animation-delay: 1.2s; top: 10px; }
+.fairy-light:nth-child(7) { left: 65%; animation-delay: 0.2s; }
+.fairy-light:nth-child(8) { left: 75%; animation-delay: 0.9s; top: 4px; }
+.fairy-light:nth-child(9) { left: 85%; animation-delay: 0.4s; }
+.fairy-light:nth-child(10) { left: 95%; animation-delay: 1.1s; top: 8px; }
+
+/* Wire connecting fairy lights */
+.fairy-wire {
+  position: absolute;
+  top: 8px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(100, 100, 100, 0.3) 10%,
+    rgba(100, 100, 100, 0.3) 90%,
+    transparent 100%
+  );
+  z-index: -1;
+}
+
+/* ============================================
+   Paper & Notebook Textures
+   ============================================ */
+
+/* Notebook paper with lines */
+.notebook-paper {
+  background-color: var(--paper-white);
+  background-image:
+    linear-gradient(var(--paper-lines) 1px, transparent 1px);
+  background-size: 100% 24px;
+  background-position: 0 12px;
+}
+
+/* Torn paper edge effect */
+.torn-edge-top {
+  position: relative;
+}
+
+.torn-edge-top::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: inherit;
+  clip-path: polygon(
+    0% 100%, 3% 60%, 6% 100%, 9% 70%, 12% 100%, 15% 50%, 18% 100%,
+    21% 65%, 24% 100%, 27% 55%, 30% 100%, 33% 75%, 36% 100%, 39% 60%,
+    42% 100%, 45% 70%, 48% 100%, 51% 55%, 54% 100%, 57% 65%, 60% 100%,
+    63% 50%, 66% 100%, 69% 75%, 72% 100%, 75% 60%, 78% 100%, 81% 70%,
+    84% 100%, 87% 55%, 90% 100%, 93% 65%, 96% 100%, 100% 70%, 100% 100%
+  );
+}
+
+.torn-edge-bottom {
+  position: relative;
+}
+
+.torn-edge-bottom::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: inherit;
+  clip-path: polygon(
+    0% 0%, 3% 40%, 6% 0%, 9% 30%, 12% 0%, 15% 50%, 18% 0%,
+    21% 35%, 24% 0%, 27% 45%, 30% 0%, 33% 25%, 36% 0%, 39% 40%,
+    42% 0%, 45% 30%, 48% 0%, 51% 45%, 54% 0%, 57% 35%, 60% 0%,
+    63% 50%, 66% 0%, 69% 25%, 72% 0%, 75% 40%, 78% 0%, 81% 30%,
+    84% 0%, 87% 45%, 90% 0%, 93% 35%, 96% 0%, 100% 30%, 100% 0%
+  );
+}
+
+/* Sticky note style */
+.sticky-note {
+  background: var(--sticky-yellow);
+  box-shadow: var(--shadow-paper);
+  transform: rotate(-1deg);
+  padding: 12px 16px;
+}
+
+.sticky-note-pink {
+  background: var(--sticky-pink);
+  transform: rotate(1deg);
+}
+
+.sticky-note-blue {
+  background: var(--sticky-blue);
+  transform: rotate(-0.5deg);
+}
+
+/* ============================================
+   Chat Bubbles - Paper scraps style
+   ============================================ */
+
+/* User messages - soft lavender paper */
+.chat-bubble-user {
+  background: var(--paper-user);
+  color: #2a2035;
+  border-radius: 4px 16px 4px 16px;
+  box-shadow: var(--shadow-paper);
+  transform: rotate(0.5deg);
+  position: relative;
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* Arti's messages - purple tinted paper with handwriting */
+.chat-bubble-arti {
+  background: linear-gradient(135deg, var(--bg-surface) 0%, rgba(179, 71, 255, 0.1) 100%);
+  border: 1px solid var(--border-glow);
+  border-radius: 16px 4px 16px 4px;
+  box-shadow: 0 0 20px rgba(179, 71, 255, 0.1);
+  position: relative;
+  font-family: 'Caveat', 'Patrick Hand', cursive !important;
+  font-size: 1.75rem !important;
+  line-height: 1.5;
+}
+
+/* Make sure Arti's text inside prose inherits the handwriting */
+.chat-bubble-arti .prose,
+.chat-bubble-arti .prose * {
+  font-family: 'Caveat', 'Patrick Hand', cursive !important;
+  font-size: 1.75rem !important;
+}
+
+/* Doodle decorations */
+.doodle-star::before {
+  content: '✦';
+  position: absolute;
+  color: var(--neon-purple);
+  opacity: 0.6;
+  font-size: 12px;
+}
+
+.doodle-spiral::after {
+  content: '〰';
+  position: absolute;
+  color: var(--text-muted);
+  opacity: 0.4;
+  font-size: 10px;
+}
+
+/* ============================================
+   Input Area - Notebook style
+   ============================================ */
+
+.chat-input-container {
+  background: var(--bg-surface);
+  border: 2px solid var(--border-glow);
+  border-radius: 20px;
+  box-shadow: var(--shadow-neon);
+  transition: all 0.3s ease;
+}
+
+.chat-input-container:focus-within {
+  border-color: var(--neon-purple);
   box-shadow:
-    0 4px 12px rgb(15 23 42 / 0.02),
-    0 1px 2px rgb(15 23 42 / 0.02);
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    0 0 30px rgba(179, 71, 255, 0.4),
+    0 0 60px rgba(179, 71, 255, 0.2);
+}
+
+/* Power button send 🟣 - BRIGHT neon! */
+.send-button {
+  background: linear-gradient(135deg, #c56fff 0%, #e88fff 50%, #d670ff 100%);
+  border: none;
+  border-radius: 12px;
+  box-shadow:
+    0 0 20px rgba(200, 100, 255, 0.6),
+    0 0 40px rgba(200, 100, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.2s ease;
+}
+
+.send-button:hover {
+  transform: scale(1.08);
+  background: linear-gradient(135deg, #d080ff 0%, #f0a0ff 50%, #e080ff 100%);
+  box-shadow:
+    0 0 30px rgba(220, 120, 255, 0.7),
+    0 0 60px rgba(200, 100, 255, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.send-button:active {
+  transform: scale(0.95);
+  box-shadow:
+    0 0 15px rgba(200, 100, 255, 0.5),
+    0 0 30px rgba(200, 100, 255, 0.2);
+}
+
+/* ============================================
+   Sidebar - Arti's corner
+   ============================================ */
+
+.sidebar-arti {
+  background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-surface) 100%);
+  border-right: 1px solid var(--border-glow);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient glow in sidebar */
+.sidebar-arti::before {
+  content: '';
+  position: absolute;
+  top: 20%;
+  left: -50%;
+  width: 200%;
+  height: 30%;
+  background: radial-gradient(ellipse, var(--neon-glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Nav items with glow on active */
+.nav-item {
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  font-family: 'Caveat', cursive;
+  font-size: 1.2rem;
+}
+
+.nav-item:hover {
+  background: rgba(179, 71, 255, 0.1);
+}
+
+.nav-item.active {
+  background: linear-gradient(90deg, var(--neon-purple-dim), transparent);
+  border-left: 3px solid var(--neon-purple);
+  box-shadow: 0 0 20px rgba(179, 71, 255, 0.2);
+}
+
+/* ============================================
+   Welcome Screen - Enter Arti's room
+   ============================================ */
+
+.welcome-card {
+  background: var(--bg-surface);
+  border: 2px solid var(--border-glow);
+  border-radius: 24px;
+  box-shadow: var(--shadow-neon);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient light effect */
+.welcome-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 30%, var(--neon-glow) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Arti's signature with glow */
+.arti-signature {
+  font-family: 'Caveat', cursive;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--text-bright);
+  text-shadow:
+    0 0 10px var(--neon-glow),
+    0 0 30px var(--neon-glow),
+    0 0 50px rgba(179, 71, 255, 0.3);
+}
+
+/* ============================================
+   Tool/Code Blocks - Terminal in the dark
+   ============================================ */
+
+.tool-input {
+  font-family: 'SF Mono', 'Monaco', 'Fira Code', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-dim);
+  border-radius: 8px;
+}
+
+pre code {
+  font-family: 'SF Mono', 'Monaco', 'Fira Code', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.tool-container {
+  border-radius: 12px;
+  border: 1px solid var(--border-dim);
+  background: rgba(20, 20, 32, 0.9);
+  padding: 0.75rem 1rem;
+  box-shadow: var(--shadow-soft);
 }
 
 .tool-container:hover {
-  border-color: rgb(23 23 23 / 0.2);
-  box-shadow:
-    0 6px 16px rgb(15 23 42 / 0.04),
-    0 1px 4px rgb(15 23 42 / 0.04);
+  border-color: var(--border-glow);
+  box-shadow: 0 0 15px rgba(179, 71, 255, 0.1);
 }
 
-@media (prefers-color-scheme: dark) {
-  .tool-container {
-    border-color: rgb(82 82 82 / 0.8);
-    background: rgb(9 9 11 / 0.9);
-    box-shadow:
-      0 8px 16px rgb(0 0 0 / 0.25),
-      0 2px 4px rgb(0 0 0 / 0.2);
-  }
+/* ============================================
+   Crumpled Paper Balls - Corner decoration
+   ============================================ */
 
-  .tool-container:hover {
-    border-color: rgb(163 163 163 / 0.4);
-    box-shadow:
-      0 10px 20px rgb(0 0 0 / 0.3),
-      0 3px 6px rgb(0 0 0 / 0.25);
-  }
+.crumpled-paper {
+  position: fixed;
+  pointer-events: none;
+  opacity: 0.15;
+  font-size: 24px;
 }
 
-/* Create border with gaps for icons in expanded sections */
+.crumpled-paper-1 {
+  bottom: 20px;
+  left: 20px;
+  transform: rotate(15deg);
+}
+
+.crumpled-paper-2 {
+  bottom: 40px;
+  left: 60px;
+  transform: rotate(-20deg);
+  font-size: 18px;
+}
+
+.crumpled-paper-3 {
+  bottom: 30px;
+  right: 30px;
+  transform: rotate(25deg);
+}
+
+/* ============================================
+   Guitar Pick Icon
+   ============================================ */
+
+.guitar-pick {
+  display: inline-block;
+  width: 20px;
+  height: 24px;
+  background: var(--neon-purple);
+  clip-path: polygon(50% 0%, 100% 35%, 85% 100%, 15% 100%, 0% 35%);
+  box-shadow: 0 0 10px var(--neon-glow);
+}
+
+/* ============================================
+   Expanded Block Sections
+   ============================================ */
+
 .expanded-block-section {
   position: relative;
   background-image: linear-gradient(
     to bottom,
-    rgb(229 229 229 / 0.3) 0%,
-    rgb(229 229 229 / 0.3) 100%
+    var(--border-dim) 0%,
+    var(--border-dim) 100%
   );
   background-size: 1px 100%;
   background-position: 0 0;
   background-repeat: repeat-y;
 }
 
-@media (prefers-color-scheme: dark) {
-  .expanded-block-section {
-    background-image: linear-gradient(to bottom, rgb(64 64 64 / 0.3) 0%, rgb(64 64 64 / 0.3) 100%);
-  }
-}
-
-/* Align tool call icons with border center and create gap */
 .expanded-block-section .flex.h-4.w-4.items-center.justify-center {
   position: relative;
   margin-left: -18.5px;
-  background-color: rgb(255 255 255);
+  background-color: var(--bg-room);
   z-index: 1;
   padding: 3px 2px;
   border-radius: 2px;
 }
 
-@media (prefers-color-scheme: dark) {
-  .expanded-block-section .flex.h-4.w-4.items-center.justify-center {
-    background-color: rgb(23 23 23);
-  }
-}
-
-/* Align thinking badge icon with border center and create gap */
 .expanded-block-section .flex.items-center.gap-1\.5 {
   position: relative;
 }
@@ -201,7 +585,6 @@ pre code {
   z-index: 1;
 }
 
-/* Create background gap for thinking icon using pseudo-element on parent */
 .expanded-block-section .flex.items-center.gap-1\.5::before {
   content: '';
   position: absolute;
@@ -210,18 +593,11 @@ pre code {
   top: 50%;
   transform: translateY(-50%);
   height: 18px;
-  background-color: rgb(255 255 255);
+  background-color: var(--bg-room);
   border-radius: 2px;
   z-index: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  .expanded-block-section .flex.items-center.gap-1\.5::before {
-    background-color: rgb(23 23 23);
-  }
-}
-
-/* Remove extra indent and border from expanded tool calls and thinking blocks */
 .expanded-block-section .collapsible-tool-expanded {
   margin-left: 0 !important;
   border-left: none !important;
@@ -234,28 +610,159 @@ pre code {
   padding-left: 0 !important;
 }
 
-/* BOLD VISIBLE SCROLLBAR for skills demo */
+/* ============================================
+   Force Scrollbar (for demos)
+   ============================================ */
+
 .force-scrollbar {
   scrollbar-width: auto !important;
-  scrollbar-color: rgb(71 85 105) rgb(15 23 42 / 0.5) !important;
+  scrollbar-color: var(--neon-purple) var(--bg-dark) !important;
 }
 
 .force-scrollbar::-webkit-scrollbar {
   width: 14px !important;
-  height: 14px !important;
 }
 
 .force-scrollbar::-webkit-scrollbar-track {
-  background: rgb(15 23 42 / 0.5) !important;
-  border-radius: 9999px !important;
+  background: var(--bg-dark) !important;
+  border-radius: 7px !important;
 }
 
 .force-scrollbar::-webkit-scrollbar-thumb {
-  background-color: rgb(71 85 105) !important;
-  border-radius: 9999px !important;
-  border: 2px solid rgb(15 23 42 / 0.5) !important;
+  background: linear-gradient(180deg, var(--neon-purple-dim), var(--neon-purple)) !important;
+  border-radius: 7px !important;
+  border: 2px solid var(--bg-dark) !important;
 }
 
-.force-scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: rgb(100 116 139) !important;
+/* ============================================
+   Polaroid Photos - scattered on the wall
+   ============================================ */
+
+.polaroid {
+  background: #f8f8f8;
+  padding: 8px;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.polaroid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.05) 100%
+  );
+  pointer-events: none;
+}
+
+.polaroid:hover {
+  transform: scale(1.8) rotate(0deg) !important;
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.6),
+    0 6px 12px rgba(0, 0, 0, 0.4),
+    0 0 50px rgba(179, 71, 255, 0.5);
+  z-index: 100;
+}
+
+.polaroid-image {
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: #222;
+}
+
+.polaroid-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.9) contrast(1.05);
+}
+
+.polaroid-caption {
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: 'Caveat', cursive;
+  font-size: 0.85rem;
+  color: #444;
+  padding: 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Polaroid Gallery Container */
+.polaroid-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px;
+  position: relative;
+}
+
+/* Individual polaroid positions - scattered on wall effect */
+.polaroid-gallery .polaroid:nth-child(1) {
+  align-self: flex-start;
+  margin-left: 8px;
+}
+
+.polaroid-gallery .polaroid:nth-child(2) {
+  align-self: flex-end;
+  margin-right: 4px;
+}
+
+.polaroid-gallery .polaroid:nth-child(3) {
+  align-self: center;
+  margin-left: 12px;
+}
+
+/* Tape effect for pinning polaroids */
+.polaroid-tape {
+  position: absolute;
+  width: 40px;
+  height: 14px;
+  background: rgba(255, 255, 220, 0.7);
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Polaroid fade animation for rotation */
+@keyframes polaroid-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95) rotate(var(--rotation, 0deg));
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(var(--rotation, 0deg));
+  }
+}
+
+@keyframes polaroid-fade-out {
+  from {
+    opacity: 1;
+    transform: scale(1) rotate(var(--rotation, 0deg));
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95) rotate(var(--rotation, 0deg));
+  }
+}
+
+.polaroid-entering {
+  animation: polaroid-fade-in 0.5s ease-out forwards;
+}
+
+.polaroid-exiting {
+  animation: polaroid-fade-out 0.5s ease-in forwards;
 }

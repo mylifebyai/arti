@@ -23,6 +23,7 @@ import {
   createDevserverBridge,
   createExportBridge,
   createFilesystemBridge,
+  createMemoryBridge,
   createProjectBridge,
   createShellBridge,
   createUpdateBridge
@@ -52,7 +53,10 @@ const api: ElectronAPI = {
 
   // Demo app bridge
   aiNewsTweet: createAiNewsTweetBridge(ipcRenderer),
-  export: createExportBridge(ipcRenderer)
+  export: createExportBridge(ipcRenderer),
+
+  // Memory consolidation
+  memory: createMemoryBridge(ipcRenderer)
 };
 
 // Expose the API to the renderer process

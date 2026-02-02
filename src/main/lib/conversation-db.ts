@@ -12,6 +12,7 @@ export interface Conversation {
   updatedAt: number; // Unix timestamp
   sessionId?: string | null;
   projectPath?: string | null; // Absolute path to project directory
+  processedForMemory?: number; // 0 = not processed, 1 = processed (Unix timestamp when processed)
 }
 
 // Database instance and workspace tracking
@@ -63,6 +64,12 @@ function getDb(): Database.Database {
     const hasProjectPath = columns.some((col) => col.name === 'projectPath');
     if (!hasProjectPath) {
       db.exec('ALTER TABLE conversations ADD COLUMN projectPath TEXT');
+    }
+
+    // Migration: Add processedForMemory column if it doesn't exist
+    const hasProcessedForMemory = columns.some((col) => col.name === 'processedForMemory');
+    if (!hasProcessedForMemory) {
+      db.exec('ALTER TABLE conversations ADD COLUMN processedForMemory INTEGER DEFAULT 0');
     }
 
     // Create index for faster sorting by updatedAt
@@ -399,4 +406,97 @@ export function generateTitleFromMessages(messages: unknown[]): string {
     }
   }
   return 'New Chat';
+}
+
+// ============================================
+// Memory Consolidation Functions
+// ============================================
+
+/**
+ * Get conversations that haven't been processed for memory consolidation yet,
+ * OR have been updated since they were last processed.
+ * Only returns conversations with at least 2 messages (a real conversation).
+ */
+export function getUnprocessedConversations(limit: number = 20): Conversation[] {
+  const database = getDb();
+
+  // Include conversations that:
+  // 1. Were never processed (NULL or 0)
+  // 2. OR were updated after being processed (user continued the conversation)
+  const rows = database
+    .prepare(
+      `SELECT * FROM conversations
+       WHERE (processedForMemory IS NULL OR processedForMemory = 0 OR updatedAt > processedForMemory)
+       ORDER BY updatedAt ASC
+       LIMIT ?`
+    )
+    .all(limit) as Conversation[];
+
+  // Filter to only conversations with actual content (at least 2 messages)
+  return rows
+    .filter((row) => {
+      try {
+        const messages = JSON.parse(row.messages);
+        return Array.isArray(messages) && messages.length >= 2;
+      } catch {
+        return false;
+      }
+    })
+    .map((row) => ({
+      id: row.id,
+      title: row.title,
+      messages: row.messages,
+      createdAt: row.createdAt,
+      updatedAt: row.updatedAt,
+      sessionId: row.sessionId ?? null,
+      projectPath: row.projectPath ?? null,
+      processedForMemory: row.processedForMemory ?? 0
+    }));
+}
+
+/**
+ * Mark conversations as processed for memory consolidation.
+ */
+export function markConversationsAsProcessed(conversationIds: string[]): void {
+  const database = getDb();
+  const now = Date.now();
+
+  const stmt = database.prepare(`
+    UPDATE conversations
+    SET processedForMemory = ?
+    WHERE id = ?
+  `);
+
+  const transaction = database.transaction(() => {
+    for (const id of conversationIds) {
+      stmt.run(now, id);
+    }
+  });
+
+  transaction();
+}
+
+/**
+ * Get count of conversations needing memory processing.
+ * Includes never-processed conversations AND conversations updated since last processing.
+ */
+export function getUnprocessedConversationCount(): number {
+  const database = getDb();
+
+  const result = database
+    .prepare(
+      `SELECT COUNT(*) as count FROM conversations
+       WHERE (processedForMemory IS NULL OR processedForMemory = 0 OR updatedAt > processedForMemory)`
+    )
+    .get() as { count: number };
+
+  return result.count;
+}
+
+/**
+ * Reset processedForMemory flag for all conversations (for testing).
+ */
+export function resetAllProcessedFlags(): void {
+  const database = getDb();
+  database.exec('UPDATE conversations SET processedForMemory = 0');
 }

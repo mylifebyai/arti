@@ -110,7 +110,7 @@ app.whenReady().then(async () => {
   // Register all IPC handlers
   registerConfigHandlers();
   registerChatHandlers(() => mainWindow);
-  registerConversationHandlers();
+  registerConversationHandlers(() => mainWindow);
   registerShellHandlers();
   registerUpdateHandlers();
   registerProjectHandlers();

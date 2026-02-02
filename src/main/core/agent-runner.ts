@@ -57,7 +57,7 @@ export async function runAgentMessage(
   const ctx = await ensureAppContext(appId || 'chat');
 
   try {
-    startStreamingSession(mainWindow, ctx.allowedTools, undefined, ctx.agents).catch((error) => {
+    startStreamingSession(mainWindow, ctx.allowedTools, ctx.systemPrompt, ctx.agents).catch((error) => {
       console.error('Failed to start streaming session:', error);
     });
 

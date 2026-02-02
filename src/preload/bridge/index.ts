@@ -12,6 +12,7 @@ export { createConversationBridge } from './conversation';
 export { createDevserverBridge } from './devserver';
 export { createExportBridge } from './export';
 export { createFilesystemBridge } from './filesystem';
+export { createMemoryBridge } from './memory';
 export { createProjectBridge } from './project';
 export { createShellBridge } from './shell';
 export { createUpdateBridge } from './update';

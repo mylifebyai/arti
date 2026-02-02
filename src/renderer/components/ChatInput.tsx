@@ -1,4 +1,4 @@
-import { ArrowUp, Brain, Loader2, Paperclip, Square } from 'lucide-react';
+import { Loader2, Paperclip, Square } from 'lucide-react';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import AttachmentPreviewList from '@/components/AttachmentPreviewList';
@@ -255,14 +255,12 @@ export default function ChatInput({
   return (
     <div
       ref={containerRef}
-      className="sticky inset-x-0 bottom-0 z-10 px-4 pt-6 pb-5 backdrop-blur [-webkit-app-region:no-drag]"
+      className="sticky inset-x-0 bottom-0 z-10 px-4 pt-6 pb-5 [-webkit-app-region:no-drag]"
     >
       <div className="mx-auto max-w-3xl">
         <div
-          className={`rounded-3xl bg-[var(--bg-white)] p-5 pb-3 shadow-[var(--shadow-input)] ${
-            isDragActive ?
-              'ring-2 ring-[var(--accent-coral)]/50'
-            : ''
+          className={`chat-input-container p-5 pb-3 ${
+            isDragActive ? 'ring-2 ring-[var(--neon-purple)]/50' : ''
           }`}
           onClick={handleInputContainerClick}
           onDragEnter={handleDragEnter}
@@ -293,7 +291,7 @@ export default function ChatInput({
           )}
 
           {attachmentError && (
-            <p className="px-3 pb-2 text-xs text-red-600 dark:text-red-400">{attachmentError}</p>
+            <p className="px-3 pb-2 text-xs text-red-400">{attachmentError}</p>
           )}
 
           <textarea
@@ -302,175 +300,64 @@ export default function ChatInput({
             onChange={(e) => onChange(e.target.value)}
             onKeyDown={handleKeyDown}
             onPaste={handlePaste}
-            placeholder="How can I help you today?"
+            placeholder="what's on your mind? ✨"
             rows={1}
-            className="w-full resize-none border-0 bg-transparent px-3 py-2 text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:outline-none"
+            className="w-full resize-none border-0 bg-transparent px-3 py-2 text-[var(--text-bright)] placeholder-[var(--text-muted)] focus:outline-none font-readable text-base"
             style={{
               minHeight: `${MIN_TEXTAREA_HEIGHT}px`,
               maxHeight: `${MAX_TEXTAREA_HEIGHT}px`
             }}
             onInput={handleTextareaInput}
           />
-          <div className="flex flex-wrap items-center justify-between gap-3 px-2 pt-2">
-            <div className="flex flex-wrap items-center gap-2">
+          <div className="flex items-center justify-between gap-3 px-2 pt-2">
+            {/* Left side - Attachment button + recording light when loading */}
+            <div className="flex items-center gap-3">
               <button
                 type="button"
                 onClick={handleAttachmentButtonClick}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--user-bubble)] text-[var(--text-secondary)] transition hover:bg-[var(--border-light)] focus:ring-2 focus:ring-[var(--accent-coral)]/50 focus:outline-none"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--bg-dark)] text-[var(--text-dim)] transition hover:bg-[var(--neon-purple)]/20 hover:text-[var(--neon-purple)] focus:ring-2 focus:ring-[var(--neon-purple)]/50 focus:outline-none"
                 title="Attach files"
               >
                 <Paperclip className="h-4 w-4" />
               </button>
-              <div className="flex rounded-full bg-[var(--user-bubble)] p-1">
-                <button
-                  type="button"
-                  aria-pressed={modelPreference === 'fast'}
-                  onClick={() => handleModelToggle('fast')}
-                  disabled={isModelPreferenceUpdating}
-                  className={`rounded-full px-3 py-1 text-xs font-medium transition ${
-                    modelPreference === 'fast' ?
-                      'bg-[var(--bg-white)] text-[var(--text-primary)] shadow-sm'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                  } ${isModelPreferenceUpdating ? 'opacity-70' : ''}`}
-                >
-                  Fast
-                </button>
-                <button
-                  type="button"
-                  aria-pressed={modelPreference === 'smart'}
-                  onClick={() => handleModelToggle('smart')}
-                  disabled={isModelPreferenceUpdating}
-                  className={`rounded-full px-3 py-1 text-xs font-medium transition ${
-                    modelPreference === 'smart' ?
-                      'bg-[var(--bg-white)] text-[var(--text-primary)] shadow-sm'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                  } ${isModelPreferenceUpdating ? 'opacity-70' : ''}`}
-                >
-                  Smart
-                </button>
-                <button
-                  type="button"
-                  aria-pressed={modelPreference === 'deep'}
-                  onClick={() => handleModelToggle('deep')}
-                  disabled={isModelPreferenceUpdating}
-                  className={`rounded-full px-3 py-1 text-xs font-medium transition ${
-                    modelPreference === 'deep' ?
-                      'bg-[var(--bg-white)] text-[var(--text-primary)] shadow-sm'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                  } ${isModelPreferenceUpdating ? 'opacity-70' : ''}`}
-                >
-                  Deep
-                </button>
-              </div>
-              {isModelPreferenceUpdating && (
-                <Loader2 className="h-3.5 w-3.5 animate-spin text-[var(--text-tertiary)]" />
+
+              {/* Recording light when Arti is thinking */}
+              {isLoading && (
+                <div className="flex items-center gap-2">
+                  <div className="recording-light" />
+                  <span className="text-xs text-[var(--text-dim)] font-handwritten">thinking...</span>
+                </div>
               )}
-              {/* Provider Toggle */}
-              <div className="flex rounded-full bg-[var(--user-bubble)] p-1">
-                <button
-                  type="button"
-                  aria-pressed={provider === 'anthropic'}
-                  onClick={() => handleProviderToggle('anthropic')}
-                  disabled={isProviderUpdating}
-                  className={`rounded-full px-2.5 py-1 text-xs font-medium transition ${
-                    provider === 'anthropic' ?
-                      'bg-[var(--bg-white)] text-[var(--text-primary)] shadow-sm'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                  } ${isProviderUpdating ? 'opacity-70' : ''}`}
-                  title="Use Anthropic Claude API"
-                >
-                  Claude
-                </button>
-                <button
-                  type="button"
-                  aria-pressed={provider === 'glm'}
-                  onClick={() => handleProviderToggle('glm')}
-                  disabled={isProviderUpdating}
-                  className={`rounded-full px-2.5 py-1 text-xs font-medium transition ${
-                    provider === 'glm' ?
-                      'bg-[var(--bg-white)] text-[var(--text-primary)] shadow-sm'
-                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                  } ${isProviderUpdating ? 'opacity-70' : ''}`}
-                  title="Use Z.AI GLM API"
-                >
-                  Z.AI
-                </button>
-              </div>
-              {isProviderUpdating && (
-                <Loader2 className="h-3.5 w-3.5 animate-spin text-[var(--text-tertiary)]" />
-              )}
-              {/* Thinking Level Dropdown */}
-              {/* Note: Extended thinking works with Sonnet (Smart) and Opus (Deep), not Haiku (Fast) */}
-              <div ref={thinkingDropdownRef} className="relative">
-                <button
-                  type="button"
-                  onClick={() => setIsThinkingDropdownOpen(!isThinkingDropdownOpen)}
-                  disabled={isThinkingLevelUpdating || modelPreference === 'fast'}
-                  className={`flex items-center gap-1.5 rounded-full bg-[var(--user-bubble)] px-3 py-1.5 text-xs font-medium transition ${
-                    isThinkingLevelUpdating ? 'opacity-70' : ''
-                  } ${
-                    modelPreference === 'fast' ?
-                      'cursor-not-allowed text-[var(--text-tertiary)] opacity-50'
-                    : thinkingLevel === 'off' ? 'text-[var(--text-tertiary)]'
-                    : 'text-[var(--text-secondary)]'
-                  }`}
-                  title={
-                    modelPreference === 'fast' ?
-                      'Thinking requires Smart or Deep model'
-                    : `Thinking: ${THINKING_PRESETS[thinkingLevel].description}`
-                  }
-                >
-                  <Brain className="h-3.5 w-3.5" />
-                  <span>
-                    {modelPreference === 'fast' ? 'N/A' : THINKING_PRESETS[thinkingLevel].label}
-                  </span>
-                  {isThinkingLevelUpdating && <Loader2 className="h-3 w-3 animate-spin" />}
-                </button>
-                {isThinkingDropdownOpen && (
-                  <div className="absolute bottom-full left-0 z-20 mb-2 w-48 rounded-xl bg-[var(--bg-white)] p-1 shadow-lg ring-1 ring-[var(--border-light)]">
-                    {(Object.keys(THINKING_PRESETS) as ThinkingLevel[]).map((level) => (
-                      <button
-                        key={level}
-                        type="button"
-                        onClick={() => {
-                          handleThinkingLevelChange(level);
-                          setIsThinkingDropdownOpen(false);
-                        }}
-                        className={`flex w-full flex-col items-start rounded-lg px-3 py-2 text-left transition ${
-                          level === thinkingLevel ?
-                            'bg-[var(--user-bubble)]'
-                          : 'hover:bg-[var(--bg-cream)]'
-                        }`}
-                      >
-                        <span className="text-sm font-medium text-[var(--text-primary)]">
-                          {THINKING_PRESETS[level].label}
-                        </span>
-                        <span className="text-xs text-[var(--text-tertiary)]">
-                          {THINKING_PRESETS[level].description}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
             </div>
+
+            {/* Right side - Send button (🟣 power button!) */}
             <button
               onClick={isLoading && onStopStreaming ? onStopStreaming : onSend}
               disabled={isLoading && onStopStreaming ? false : !computedCanSend || isLoading}
-              className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
-                isLoading && onStopStreaming ?
-                  'bg-[var(--user-bubble)] text-[var(--text-primary)] hover:bg-[var(--border-light)]'
-                : 'bg-[var(--accent-coral)] text-white hover:bg-[var(--accent-coral-dark)]'
+              className={`send-button flex h-11 w-11 items-center justify-center transition-all disabled:cursor-not-allowed disabled:opacity-70 ${
+                isLoading && onStopStreaming
+                  ? '!bg-[var(--bg-dark)] hover:!bg-[var(--neon-purple)]/20'
+                  : ''
               }`}
+              title={isLoading && onStopStreaming ? 'Stop' : 'Send message'}
             >
-              {isLoading ?
-                onStopStreaming ?
-                  <Square className="h-5 w-5" />
-                : <Loader2 className="h-5 w-5 animate-spin" />
-              : <ArrowUp className="h-5 w-5" />}
+              {isLoading ? (
+                onStopStreaming ? (
+                  <Square className="h-5 w-5 text-[var(--text-bright)]" />
+                ) : (
+                  <Loader2 className="h-5 w-5 animate-spin text-[var(--text-bright)]" />
+                )
+              ) : (
+                <span className="text-xl">🟣</span>
+              )}
             </button>
           </div>
         </div>
+
+        {/* Little hint text */}
+        <p className="text-center text-xs text-[var(--text-muted)] mt-2 font-handwritten opacity-60">
+          press enter to send · shift+enter for new line
+        </p>
       </div>
     </div>
   );
