@@ -66,8 +66,8 @@ export function buildAppContext(appId?: string | null): AppContext {
   const allowedTools = getAllowedTools(manifest.id);
   const appSettings = getAppSettings(manifest.id);
 
-  // For the chat app (Arti), pre-load memory into context like Claude Projects
-  const memoryContent = manifest.id === 'chat' ? loadArtiMemory() : null;
+  // For Arti apps, pre-load memory into context like Claude Projects
+  const memoryContent = (manifest.id === 'chat' || manifest.id === 'arti') ? loadArtiMemory() : null;
 
   const combinedSystemPrompt = buildSystemPromptAppend(
     manifest.systemPrompt,
