@@ -1,6 +1,10 @@
+import { config } from 'dotenv';
 import { existsSync } from 'fs';
 import { join } from 'path';
 import { app, BrowserWindow, Menu } from 'electron';
+
+// Load environment variables from .env file
+config();
 
 import { registerAiNewsTweetHandlers } from './handlers/ai-news-tweet-handlers';
 import { registerAppMessagingHandlers } from './handlers/app-messaging-handlers';

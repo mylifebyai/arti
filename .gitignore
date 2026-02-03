@@ -43,3 +43,13 @@ resources/msys2.tar.zst
 # Archive (test artifacts, temporary files)
 ai-docs/archive/
 ai-docs/
+
+# Compiled skill binaries (regenerated via bun build)
+.claude/skills/*/scripts/*
+!.claude/skills/*/scripts/*.ts
+
+# Memory backups (local only)
+info/memory-backups/
+
+# Build outputs
+bin/
