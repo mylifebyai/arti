@@ -101,7 +101,7 @@ export async function searchMemories(
 
   const { data, error } = await client.rpc('search_memories', {
     query_embedding: queryEmbedding,
-    match_threshold: options.matchThreshold ?? 0.7,
+    match_threshold: options.matchThreshold ?? 0.5,
     match_count: options.matchCount ?? 10,
   });
 
